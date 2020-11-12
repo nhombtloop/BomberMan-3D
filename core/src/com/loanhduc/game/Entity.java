@@ -4,13 +4,14 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g3d.Environment;
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.utils.UBJsonReader;
 
-public class Model {
-    private com.badlogic.gdx.graphics.g3d.Model model;
+public class Entity {
+    private Model model;
     private ModelInstance modelInstance;
 
     public void create() {

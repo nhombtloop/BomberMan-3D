@@ -33,15 +33,14 @@ public class MyGdxGame implements ApplicationListener {
 	private ModelInstance modelInstance;
 	private Environment environment;
 	private AnimationController controller;
-	private com.loanhduc.game.Model box = new com.loanhduc.game.Model();
 
 	@Override
 	public void create() {
 		cam = new PerspectiveCamera(76, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		cam.position.set(100f, 100f, 800f);
+		cam.position.set(0f, 3000f, 0f);
 		cam.lookAt(0f, 0f, 0f);
 		cam.near = 0.1f;
-		cam.far = 1000.0f;
+		cam.far = 3000.0f;
 
 		cameraInputController = new CameraInputController(cam);
 		Gdx.input.setInputProcessor(cameraInputController);
@@ -61,7 +60,6 @@ public class MyGdxGame implements ApplicationListener {
 		controller = new AnimationController(modelInstance);
 		controller.setAnimation("mixamo.com", -1);
 
-		box.create();
 	}
 
 	@Override
@@ -87,7 +85,6 @@ public class MyGdxGame implements ApplicationListener {
 		cam.update();
 		controller.update(Gdx.graphics.getDeltaTime());
 		modelBatch.begin(cam);
-		box.render(modelBatch, environment);
 		modelBatch.render(modelInstance, environment);
 		modelBatch.end();
 	}
@@ -106,6 +103,5 @@ public class MyGdxGame implements ApplicationListener {
 	public void dispose() {
 		modelBatch.dispose();
 		model.dispose();
-		box.dispose();
 	}
 }
