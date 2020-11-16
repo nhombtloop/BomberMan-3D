@@ -10,16 +10,17 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.utils.UBJsonReader;
 
-public class Entity {
-    private Model model;
-    private ModelInstance modelInstance;
+public abstract class Entity {
+    protected Model model;
+    protected ModelInstance modelInstance;
+    protected String path;
 
-    public void create() {
+    public void create(float x, float y, float z) {
         UBJsonReader jsonReader = new UBJsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-        model = modelLoader.loadModel(Gdx.files.getFileHandle("box.g3db", Files.FileType.Internal));
+        model = modelLoader.loadModel(Gdx.files.getFileHandle(path, Files.FileType.Internal));
         modelInstance = new ModelInstance(model);
-        modelInstance.transform.setToTranslation(0, 100, 0);
+        modelInstance.transform.setToTranslation(x, y, z);
     }
 
     public void dispose() {

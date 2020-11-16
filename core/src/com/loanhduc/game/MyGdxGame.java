@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.UBJsonReader;
 
@@ -37,7 +38,7 @@ public class MyGdxGame implements ApplicationListener {
 	@Override
 	public void create() {
 		cam = new PerspectiveCamera(76, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		cam.position.set(0f, 3000f, 0f);
+		cam.position.set(0f, 2000, 0f);
 		cam.lookAt(0f, 0f, 0f);
 		cam.near = 0.1f;
 		cam.far = 3000.0f;
@@ -68,10 +69,10 @@ public class MyGdxGame implements ApplicationListener {
 	}
 	int x =0, z = 0;
 	public void event() {
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) x--;
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) x++;
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) z++;
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) z--;
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) x-= 10;
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) x+= 10;
+		if(Gdx.input.isKeyPressed(Input.Keys.UP)) z-= 10;
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) z+= 10;
 		modelInstance.transform.setToTranslation(x, 0, z);
 	}
 	@Override
