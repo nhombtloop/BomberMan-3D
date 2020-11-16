@@ -38,7 +38,7 @@ public class MyGdxGame implements ApplicationListener {
 	@Override
 	public void create() {
 		cam = new PerspectiveCamera(76, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		cam.position.set(0f, 2000, 0f);
+		cam.position.set(500f, 500, 500);
 		cam.lookAt(0f, 0f, 0f);
 		cam.near = 0.1f;
 		cam.far = 3000.0f;
