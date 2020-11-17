@@ -34,6 +34,7 @@ public class MyGdxGame implements ApplicationListener {
 	private ModelInstance modelInstance;
 	private Environment environment;
 	private AnimationController controller;
+	private Wall wall = new Wall(); //khai bao
 
 	@Override
 	public void create() {
@@ -61,6 +62,7 @@ public class MyGdxGame implements ApplicationListener {
 		controller = new AnimationController(modelInstance);
 		controller.setAnimation("mixamo.com", -1);
 
+		wall.create(-300, 100, -300); //khoi tao
 	}
 
 	@Override
@@ -87,6 +89,7 @@ public class MyGdxGame implements ApplicationListener {
 		controller.update(Gdx.graphics.getDeltaTime());
 		modelBatch.begin(cam);
 		modelBatch.render(modelInstance, environment);
+		wall.render(modelBatch, environment); //hien thi, modelBatch la but ve
 		modelBatch.end();
 	}
 
@@ -104,5 +107,6 @@ public class MyGdxGame implements ApplicationListener {
 	public void dispose() {
 		modelBatch.dispose();
 		model.dispose();
+		wall.dispose(); //pha huy
 	}
 }
