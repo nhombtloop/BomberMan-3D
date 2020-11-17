@@ -11,23 +11,19 @@ import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.utils.UBJsonReader;
 
 public abstract class Entity {
-    protected Model model;
-    protected ModelInstance modelInstance;
+    protected static Model model;
     protected String path;
 
-    public void create(float x, float y, float z) {
+    public void create() {
         UBJsonReader jsonReader = new UBJsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.getFileHandle(path, Files.FileType.Internal));
-        modelInstance = new ModelInstance(model);
-        modelInstance.transform.setToTranslation(x, y, z);
     }
 
     public void dispose() {
         model.dispose();
     }
 
-    public void render(ModelBatch modelBatch, Environment environment) {
-        modelBatch.render(modelInstance, environment);
-    }
+
+    public abstract void render();
 }

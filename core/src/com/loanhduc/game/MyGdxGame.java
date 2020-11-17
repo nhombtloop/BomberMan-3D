@@ -26,20 +26,23 @@ import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.UBJsonReader;
 
+import java.io.FileNotFoundException;
+
 public class MyGdxGame implements ApplicationListener {
-	private PerspectiveCamera cam;
-	private CameraInputController cameraInputController;
-	private ModelBatch modelBatch;
+	private static PerspectiveCamera cam;
+	private static CameraInputController cameraInputController;
+	private static ModelBatch modelBatch;
 	private Model model;
 	private ModelInstance modelInstance;
-	private Environment environment;
-	private AnimationController controller;
+	private static Environment environment;
+	private static AnimationController controller;
+
 	private Wall wall = new Wall(); //khai bao
 
 	@Override
 	public void create() {
 		cam = new PerspectiveCamera(76, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		cam.position.set(500f, 500, 500);
+		cam.position.set(0f, 2000, 0f);
 		cam.lookAt(0f, 0f, 0f);
 		cam.near = 0.1f;
 		cam.far = 3000.0f;
@@ -62,7 +65,15 @@ public class MyGdxGame implements ApplicationListener {
 		controller = new AnimationController(modelInstance);
 		controller.setAnimation("mixamo.com", -1);
 
-		wall.create(-300, 100, -300); //khoi tao
+		wall.create(); //khoi tao
+
+		try {
+			Map.loadMap("core/assets/Map.txt");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+
 	}
 
 	@Override
@@ -77,9 +88,19 @@ public class MyGdxGame implements ApplicationListener {
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) z+= 10;
 		modelInstance.transform.setToTranslation(x, 0, z);
 	}
+
+	public static ModelBatch getModelBatch() {
+		return modelBatch;
+	}
+
+	public static Environment getEnvironment() {
+		return environment;
+	}
+
 	@Override
 	public void render() {
 		cameraInputController.update();
+
 		event();
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(0,1,1,1);
@@ -88,9 +109,11 @@ public class MyGdxGame implements ApplicationListener {
 		cam.update();
 		controller.update(Gdx.graphics.getDeltaTime());
 		modelBatch.begin(cam);
+		wall.render(); //hien thi, modelBatch la but ve
+
 		modelBatch.render(modelInstance, environment);
-		wall.render(modelBatch, environment); //hien thi, modelBatch la but ve
 		modelBatch.end();
+
 	}
 
 	@Override
