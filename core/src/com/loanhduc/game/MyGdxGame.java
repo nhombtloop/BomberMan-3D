@@ -38,6 +38,7 @@ public class MyGdxGame implements ApplicationListener {
 	private static AnimationController controller;
 
 	private Wall wall = new Wall(); //khai bao
+	private Solid solid = new Solid();
 
 	@Override
 	public void create() {
@@ -45,7 +46,7 @@ public class MyGdxGame implements ApplicationListener {
 		cam.position.set(0f, 2000, 0f);
 		cam.lookAt(0f, 0f, 0f);
 		cam.near = 0.1f;
-		cam.far = 3000.0f;
+		cam.far = 10000.0f;
 
 		cameraInputController = new CameraInputController(cam);
 		Gdx.input.setInputProcessor(cameraInputController);
@@ -60,12 +61,14 @@ public class MyGdxGame implements ApplicationListener {
 
 		environment = new Environment();
 		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.8f, 0.8f, 0.8f, 1.0f));
-		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
+		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -10f, -10f, -10f));
 
 		controller = new AnimationController(modelInstance);
 		controller.setAnimation("mixamo.com", -1);
 
+		solid.create();
 		wall.create(); //khoi tao
+
 
 		try {
 			Map.loadMap("core/assets/Map.txt");
@@ -103,14 +106,14 @@ public class MyGdxGame implements ApplicationListener {
 
 		event();
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		Gdx.gl.glClearColor(0,1,1,1);
+		Gdx.gl.glClearColor(0.1f,1,1,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
 
 		cam.update();
 		controller.update(Gdx.graphics.getDeltaTime());
 		modelBatch.begin(cam);
-		wall.render(); //hien thi, modelBatch la but ve
-
+		wall.render();
+		solid.render();
 		modelBatch.render(modelInstance, environment);
 		modelBatch.end();
 
@@ -131,5 +134,6 @@ public class MyGdxGame implements ApplicationListener {
 		modelBatch.dispose();
 		model.dispose();
 		wall.dispose(); //pha huy
+		solid.dispose();
 	}
 }

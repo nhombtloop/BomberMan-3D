@@ -32,7 +32,7 @@ public class Map {
                 char c = map[i][j];
                 switch (c) {
                     case '#': // wall
-                        Wall.spawn(j * 200 - 2000, 0, i * 200 - 1400);
+                        Wall.spawn(j * 200 - 2000, 100, i * 200 - 1400);
                         break;
                     case '*': // brick
                         break;
@@ -43,6 +43,9 @@ public class Map {
                     case 'f': // flame Item
                         break;
                     case 's': // speed Item
+                        break;
+                    case ' ':
+                        Solid.spawn(j * 200 - 2000, 100, i * 200 - 1400);
                         break;
                 }
             }
