@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.utils.UBJsonReader;
 
 public abstract class Entity {
-    protected static Model model;
+    protected Model model;
     protected String path;
 
     public void create() {
@@ -24,6 +24,6 @@ public abstract class Entity {
         model.dispose();
     }
 
-
     public abstract void render();
+
 }
