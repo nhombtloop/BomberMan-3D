@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.utils.UBJsonReader;
 
 public abstract class Entity {
-    protected Model model;
+    protected static Model model;
     protected String path;
 
     public void create() {
