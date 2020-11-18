@@ -75,8 +75,7 @@ public class MyGdxGame implements ApplicationListener {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
-
+		renderMap();
 	}
 
 	@Override
@@ -100,6 +99,7 @@ public class MyGdxGame implements ApplicationListener {
 		return environment;
 	}
 
+
 	@Override
 	public void render() {
 		cameraInputController.update();
@@ -112,11 +112,36 @@ public class MyGdxGame implements ApplicationListener {
 		cam.update();
 		controller.update(Gdx.graphics.getDeltaTime());
 		modelBatch.begin(cam);
-		wall.render();
 		solid.render();
+		wall.render();
+
 		modelBatch.render(modelInstance, environment);
 		modelBatch.end();
 
+	}
+
+	public void renderMap() {
+		for (int i = 0; i < Map.ROWS; i++) {
+			for (int j = 0; j < Map.COLUMNS; j++) {
+				char c = Map.getMap()[i][j];
+				solid.spawn(j * 200 - 2000, 0, i * 200 - 1400);
+				switch (c) {
+					case '#': // wall
+						wall.spawn(j * 200 - 2000, 100, i * 200 - 1400);
+						break;
+					case '*': // brick
+						break;
+					case 'x': // portal
+						break;
+					case 'b': // bomb item
+						break;
+					case 'f': // flame Item
+						break;
+					case 's': // speed Item
+						break;
+				}
+			}
+		}
 	}
 
 	@Override

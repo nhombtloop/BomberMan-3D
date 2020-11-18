@@ -14,7 +14,7 @@ public class Solid extends StaticEntity {
         super.create();
     }
 
-    public static void spawn(float x, float y, float z) {
+    public void spawn(float x, float y, float z) {
         ModelInstance modelInstance = new ModelInstance(model);
         modelInstance.transform.setToTranslation(x, y, z);
         solids.add(modelInstance);
