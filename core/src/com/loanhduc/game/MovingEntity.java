@@ -6,19 +6,19 @@ public abstract class MovingEntity extends Entity {
     protected float z;
     protected float velocity;
 
-    public abstract void move();
+    public abstract void move(float x, float y, float z);
 
     public void moveUp() {
-        z++;
+        z -= velocity;
     }
     public void moveDown() {
-        z--;
+        z += velocity;
     }
     public void moveLeft() {
-        x--;
+        x -= velocity;
     }
     public void moveRight() {
-        x++;
+        x += velocity;
     }
 
 }
