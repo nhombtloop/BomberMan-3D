@@ -18,19 +18,24 @@ public class MyGdxGame implements ApplicationListener {
 	private static PerspectiveCamera cam;
 	private static CameraInputController cameraInputController;
 	private static ModelBatch modelBatch;
-	private static Player player = new Player();
 	private static Environment environment;
-	private static AnimationController controller;
+	//private static AnimationController animationController;
 
-	private Wall wall = new Wall(); //khai bao
+	private static Player player = new Player();
+	private Wall wall = new Wall();
 	private Solid solid = new Solid();
+
+	public void changeView() {
+		cam.position.set(player.x, 200, player.z-300);
+		cam.lookAt(0, 0, 0);
+	}
 
 	@Override
 	public void create() {
 		cam = new PerspectiveCamera(76, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		cam.position.set(0f, 2000, 0f);
 		cam.lookAt(0f, 0f, 0f);
-		cam.near = 0.1f;
+		cam.near = 1f;
 		cam.far = 10000.0f;
 
 		cameraInputController = new CameraInputController(cam);
@@ -40,11 +45,11 @@ public class MyGdxGame implements ApplicationListener {
 
 		player.create();
 		environment = new Environment();
-		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.8f, 0.8f, 0.8f, 1.0f));
-		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -10f, -10f, -10f));
+		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 255f, 255f, 255f, 1.0f));
+		environment.add(new DirectionalLight().set(255f, 255f, 255f, -10f, -10f, -10f));
 
-		controller = new AnimationController(player.getPlayerInstance());
-		controller.setAnimation("mixamo.com", -1);
+		//animationController = new AnimationController(player.getPlayerInstance());
+		//animationController.setAnimation("mixamo.com", -1);
 
 		solid.create();
 		wall.create(); //khoi tao
@@ -68,6 +73,8 @@ public class MyGdxGame implements ApplicationListener {
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) player.moveRight();
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) player.moveUp();
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) player.moveDown();
+		if(Gdx.input.isKeyPressed(Input.Keys.Q)) changeView();
+		if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) player.createBomb();
 		player.getPlayerInstance().transform.setToTranslation(player.x, player.y, player.z);
 	}
 
@@ -86,16 +93,14 @@ public class MyGdxGame implements ApplicationListener {
 
 		eventHandle();
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		Gdx.gl.glClearColor(0.1f,1,1,1);
+		Gdx.gl.glClearColor(0.2f,1f,1f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
 
 		cam.update();
-		controller.update(Gdx.graphics.getDeltaTime());
 		modelBatch.begin(cam);
 		solid.render();
-		wall.render();
 		player.render();
-
+		wall.render();
 		modelBatch.end();
 	}
 

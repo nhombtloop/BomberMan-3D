@@ -25,8 +25,6 @@ public class Map {
         }
     }
 
-
-
     public static char[][] getMap() {
         return map;
     }
