@@ -17,7 +17,7 @@ public class Wall extends StaticEntity {
     @Override
     public void spawn(float x, float y, float z) {
         ModelInstance modelInstance = new ModelInstance(model);
-        modelInstance.transform.setToTranslation(x, y, z) ;
+        modelInstance.transform.setToTranslation(x, y, z);
         walls.add(modelInstance);
     }
 

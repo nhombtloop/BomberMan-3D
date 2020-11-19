@@ -1,30 +1,16 @@
 package com.loanhduc.game;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.ModelLoader;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
-import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.physics.bullet.Bullet;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.UBJsonReader;
 
 import java.io.FileNotFoundException;
 
@@ -32,8 +18,7 @@ public class MyGdxGame implements ApplicationListener {
 	private static PerspectiveCamera cam;
 	private static CameraInputController cameraInputController;
 	private static ModelBatch modelBatch;
-	private Model model;
-	private ModelInstance modelInstance;
+	private static Player player = new Player();
 	private static Environment environment;
 	private static AnimationController controller;
 
@@ -53,17 +38,12 @@ public class MyGdxGame implements ApplicationListener {
 
 		modelBatch = new ModelBatch();
 
-		UBJsonReader jsonReader = new UBJsonReader();
-
-		G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-		model = modelLoader.loadModel(Gdx.files.getFileHandle("model2.g3db", Files.FileType.Internal));
-		modelInstance = new ModelInstance(model);
-
+		player.create();
 		environment = new Environment();
 		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.8f, 0.8f, 0.8f, 1.0f));
 		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -10f, -10f, -10f));
 
-		controller = new AnimationController(modelInstance);
+		controller = new AnimationController(player.getPlayerInstance());
 		controller.setAnimation("mixamo.com", -1);
 
 		solid.create();
@@ -82,13 +62,13 @@ public class MyGdxGame implements ApplicationListener {
 	public void resize(int i, int i1) {
 
 	}
-	int x =0, z = 0;
-	public void event() {
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) x-= 10;
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) x+= 10;
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) z-= 10;
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) z+= 10;
-		modelInstance.transform.setToTranslation(x, 0, z);
+
+	public void eventHandle() {
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) player.moveLeft();
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) player.moveRight();
+		if(Gdx.input.isKeyPressed(Input.Keys.UP)) player.moveUp();
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) player.moveDown();
+		player.getPlayerInstance().transform.setToTranslation(player.x, player.y, player.z);
 	}
 
 	public static ModelBatch getModelBatch() {
@@ -104,7 +84,7 @@ public class MyGdxGame implements ApplicationListener {
 	public void render() {
 		cameraInputController.update();
 
-		event();
+		eventHandle();
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(0.1f,1,1,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
@@ -114,10 +94,9 @@ public class MyGdxGame implements ApplicationListener {
 		modelBatch.begin(cam);
 		solid.render();
 		wall.render();
+		player.render();
 
-		modelBatch.render(modelInstance, environment);
 		modelBatch.end();
-
 	}
 
 	public void renderMap() {
@@ -157,7 +136,7 @@ public class MyGdxGame implements ApplicationListener {
 	@Override
 	public void dispose() {
 		modelBatch.dispose();
-		model.dispose();
+		player.dispose();
 		wall.dispose(); //pha huy
 		solid.dispose();
 	}
