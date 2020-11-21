@@ -60,6 +60,8 @@ public class Player extends MovingEntity {
         bomb.isSet = true;
         AnimationController bombController = new AnimationController(bomb.modelInstance);
         bombController.setAnimation("Armature|idle", -1);
+        // ai đó sửa thành bomb nổi nhé
+        bomb.setTimeout(() -> bomb.destroyBoom(),2000);
     }
 
     public void moveUp() {
