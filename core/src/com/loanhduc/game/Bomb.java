@@ -2,8 +2,6 @@ package com.loanhduc.game;
 
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Bomb extends MovingEntity {
     ModelInstance modelInstance;
@@ -21,6 +19,23 @@ public class Bomb extends MovingEntity {
     @Override
     public void update() {
 
+    }
+
+    public void setTimeout(Runnable runnable, int delay){
+        new Thread(() -> {
+            try {
+                Thread.sleep(delay);
+                runnable.run();
+            }
+            catch (Exception e){
+                System.err.println(e);
+            }
+        }).start();
+    }
+
+    public void destroyBoom() {
+        // destroy boom here
+        System.out.println("destroy boom");
     }
 
     @Override
