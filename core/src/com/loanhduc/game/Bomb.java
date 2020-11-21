@@ -14,7 +14,12 @@ public class Bomb extends MovingEntity {
     }
 
     @Override
-    public void move(float x, float y, float z) {
+    public void moveTo(float x, float y, float z) {
+
+    }
+
+    @Override
+    public void update() {
 
     }
 

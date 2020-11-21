@@ -7,7 +7,8 @@ import java.util.Scanner;
 public class Map {
     public static int ROWS;
     public static int COLUMNS;
-    private static char[][] map;
+    public static char[][] map;
+    public static final int CELL_WIDTH = 200;
 
     public static void loadMap(String path) throws FileNotFoundException {
         File file = new File(path);
@@ -25,8 +26,5 @@ public class Map {
         }
     }
 
-    public static char[][] getMap() {
-        return map;
-    }
 
 }

@@ -33,7 +33,7 @@ public class MyGdxGame implements ApplicationListener {
 	@Override
 	public void create() {
 		cam = new PerspectiveCamera(76, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		cam.position.set(0f, 2000, 0f);
+		cam.position.set(0f, 2000, 100f);
 		cam.lookAt(0f, 0f, 0f);
 		cam.near = 1f;
 		cam.far = 10000.0f;
@@ -43,23 +43,20 @@ public class MyGdxGame implements ApplicationListener {
 
 		modelBatch = new ModelBatch();
 
-		player.create();
-		environment = new Environment();
-		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 255f, 255f, 255f, 1.0f));
-		environment.add(new DirectionalLight().set(255f, 255f, 255f, -10f, -10f, -10f));
-
-		//animationController = new AnimationController(player.getPlayerInstance());
-		//animationController.setAnimation("mixamo.com", -1);
-
-		solid.create();
-		wall.create(); //khoi tao
-
-
 		try {
 			Map.loadMap("core/assets/Map.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+
+		player.create();
+		environment = new Environment();
+		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 255f, 255f, 255f, 1.0f));
+		environment.add(new DirectionalLight().set(255f, 255f, 255f, -10f, -10f, -10f));
+
+		solid.create();
+		wall.create(); //khoi tao
+
 		renderMap();
 	}
 
@@ -95,23 +92,30 @@ public class MyGdxGame implements ApplicationListener {
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(0.2f,1f,1f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
-
+		cameraFollowPlayer();
 		cam.update();
+		player.update();
 		modelBatch.begin(cam);
 		solid.render();
 		player.render();
 		wall.render();
+
 		modelBatch.end();
+	}
+
+	private void cameraFollowPlayer() {
+		cam.position.set(player.x, 1500, player.z + 500);
+		cam.lookAt(player.x, player.y, player.z);
 	}
 
 	public void renderMap() {
 		for (int i = 0; i < Map.ROWS; i++) {
 			for (int j = 0; j < Map.COLUMNS; j++) {
-				char c = Map.getMap()[i][j];
-				solid.spawn(j * 200 - 2000, 0, i * 200 - 1400);
+				char c = Map.map[i][j];
+				solid.spawn(j * Map.CELL_WIDTH, 0, i * Map.CELL_WIDTH);
 				switch (c) {
 					case '#': // wall
-						wall.spawn(j * 200 - 2000, 100, i * 200 - 1400);
+						wall.spawn(j * Map.CELL_WIDTH, 100, i * Map.CELL_WIDTH);
 						break;
 					case '*': // brick
 						break;
