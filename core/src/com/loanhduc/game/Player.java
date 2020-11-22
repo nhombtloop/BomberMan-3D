@@ -19,8 +19,8 @@ public class Player extends MovingEntity {
     public void create() {
         super.create();
         playerInstance = new ModelInstance(model);
-        animationController = new AnimationController(playerInstance);
-        animationController.setAnimation("mixamo.com", -1);
+        this.animationController = new AnimationController(playerInstance);
+        this.animationController.setAnimation("mixamo.com", -1);
         for (int i = 0; i < Map.ROWS; i++) {
             for (int j = 0; j < Map.COLUMNS; j++) {
                 if (Map.map[i][j] == 'p') {
@@ -41,6 +41,9 @@ public class Player extends MovingEntity {
             bomb.render();
         }
         animationController.update(Gdx.graphics.getDeltaTime());
+        if (bomb.isSet) {
+            bomb.animationController.update(Gdx.graphics.getDeltaTime());
+        }
     }
 
     public ModelInstance getPlayerInstance() {
@@ -54,14 +57,16 @@ public class Player extends MovingEntity {
 
     public void createBomb() {
         bomb.modelInstance = new ModelInstance(bomb.model);
-        int cellX = Math.round(x / 200) * 200;
-        int cellZ = Math.round(z / 200) * 200;
-        bomb.modelInstance.transform.setToTranslation(cellX, y ,cellZ);
+        bomb.animationController = new AnimationController(bomb.modelInstance);
+        bomb.animationController.setAnimation("Armature|idle", -1);
+        bomb.x = Math.round(x / 200) * 200;
+        bomb.z = Math.round(z / 200) * 200;
+        bomb.modelInstance.transform.setToTranslation(bomb.x, bomb.y , bomb.z);
         bomb.isSet = true;
-        AnimationController bombController = new AnimationController(bomb.modelInstance);
-        bombController.setAnimation("Armature|idle", -1);
+
         // ai đó sửa thành bomb nổi nhé
         bomb.setTimeout(() -> bomb.destroyBoom(),2000);
+
     }
 
     public void moveUp() {
