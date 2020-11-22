@@ -37,11 +37,9 @@ public class Player extends MovingEntity {
     @Override
     public void render() {
         MyGdxGame.getModelBatch().render(playerInstance, MyGdxGame.getEnvironment());
-        if(bomb.isSet) {
-            bomb.render();
-        }
         animationController.update(Gdx.graphics.getDeltaTime());
         if (bomb.isSet) {
+            bomb.render();
             bomb.animationController.update(Gdx.graphics.getDeltaTime());
         }
     }
