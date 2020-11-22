@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 public class Bomb extends MovingEntity {
     ModelInstance modelInstance;
     boolean isSet = false;
+    boolean hasBoomOnMap = false;
 
     public Bomb() {
         path = "bomb.g3db";
@@ -36,6 +37,7 @@ public class Bomb extends MovingEntity {
     public void destroyBoom() {
         // destroy boom here
         System.out.println("destroy boom");
+        hasBoomOnMap = false;
     }
 
     @Override

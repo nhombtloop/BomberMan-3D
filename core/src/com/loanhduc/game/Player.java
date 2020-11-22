@@ -54,17 +54,18 @@ public class Player extends MovingEntity {
     }
 
     public void createBomb() {
-        bomb.modelInstance = new ModelInstance(bomb.model);
-        bomb.animationController = new AnimationController(bomb.modelInstance);
-        bomb.animationController.setAnimation("Armature|idle", -1);
-        bomb.x = Math.round(x / 200) * 200;
-        bomb.z = Math.round(z / 200) * 200;
-        bomb.modelInstance.transform.setToTranslation(bomb.x, bomb.y , bomb.z);
-        bomb.isSet = true;
-
-        // ai đó sửa thành bomb nổi nhé
-        bomb.setTimeout(() -> bomb.destroyBoom(),2000);
-
+        if(!bomb.hasBoomOnMap) {
+            bomb.modelInstance = new ModelInstance(bomb.model);
+            bomb.animationController = new AnimationController(bomb.modelInstance);
+            bomb.animationController.setAnimation("Armature|idle", -1);
+            bomb.x = Math.round(x / 200) * 200;
+            bomb.z = Math.round(z / 200) * 200;
+            bomb.modelInstance.transform.setToTranslation(bomb.x, bomb.y , bomb.z);
+            bomb.isSet = true;
+            bomb.hasBoomOnMap = true;
+            // ai đó sửa thành bomb nổi nhé
+            bomb.setTimeout(() -> bomb.destroyBoom(),3000);
+        }
     }
 
     public void moveUp() {
