@@ -64,6 +64,9 @@ public class Player extends MovingEntity {
         bomb.modelInstance.transform.setToTranslation(bomb.x, bomb.y , bomb.z);
         bomb.isSet = true;
 
+        // ai đó sửa thành bomb nổi nhé
+        bomb.setTimeout(() -> bomb.destroyBoom(),2000);
+
     }
 
     public void moveUp() {

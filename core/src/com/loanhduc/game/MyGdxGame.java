@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.io.FileNotFoundException;
 
@@ -19,6 +19,7 @@ public class MyGdxGame implements ApplicationListener {
 	private static CameraInputController cameraInputController;
 	private static ModelBatch modelBatch;
 	private static Environment environment;
+	protected Stage stage;
 	//private static AnimationController animationController;
 
 	private static Player player = new Player();
