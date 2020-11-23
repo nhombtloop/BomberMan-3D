@@ -20,11 +20,12 @@ public class MyGdxGame implements ApplicationListener {
 	private static ModelBatch modelBatch;
 	private static Environment environment;
 	protected Stage stage;
-	//private static AnimationController animationController;
 
 	private static Player player = new Player();
 	private Wall wall = new Wall();
+	private Brick brick = new Brick();
 	private Solid solid = new Solid();
+	private Portal portal = new Portal();
 
 	public void changeView() {
 		cam.position.set(player.x, 200, player.z-300);
@@ -55,8 +56,10 @@ public class MyGdxGame implements ApplicationListener {
 		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 255f, 255f, 255f, 1.0f));
 		environment.add(new DirectionalLight().set(255f, 255f, 255f, -10f, -10f, -10f));
 
+		brick.create();
 		solid.create();
 		wall.create(); //khoi tao
+		portal.create();
 
 		renderMap();
 	}
@@ -100,12 +103,14 @@ public class MyGdxGame implements ApplicationListener {
 		solid.render();
 		player.render();
 		wall.render();
+		brick.render();
+		portal.render();
 
 		modelBatch.end();
 	}
 
 	private void cameraFollowPlayer() {
-		cam.position.set(player.x, 1500, player.z + 500);
+		cam.position.set(player.x, 1500, player.z + 600);
 		cam.lookAt(player.x, player.y, player.z);
 	}
 
@@ -113,14 +118,18 @@ public class MyGdxGame implements ApplicationListener {
 		for (int i = 0; i < Map.ROWS; i++) {
 			for (int j = 0; j < Map.COLUMNS; j++) {
 				char c = Map.map[i][j];
-				solid.spawn(j * Map.CELL_WIDTH, 0, i * Map.CELL_WIDTH);
+				int x = j * Map.CELL_WIDTH;
+				int z = i * Map.CELL_WIDTH;
+				solid.spawn(x, 0, z);
 				switch (c) {
 					case '#': // wall
-						wall.spawn(j * Map.CELL_WIDTH, 100, i * Map.CELL_WIDTH);
+						wall.spawn(x, 100, z);
 						break;
 					case '*': // brick
+						brick.spawn(x + 30, 0, z - 10);
 						break;
 					case 'x': // portal
+						portal.spawn(x, 0, z);
 						break;
 					case 'b': // bomb item
 						break;

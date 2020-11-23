@@ -11,7 +11,7 @@ public class Player extends MovingEntity {
 
 
     public Player() {
-        path = "model2.g3db";
+        path = "bomberman.g3db";
         velocity = 10;
     }
 
@@ -20,7 +20,7 @@ public class Player extends MovingEntity {
         super.create();
         playerInstance = new ModelInstance(model);
         this.animationController = new AnimationController(playerInstance);
-        this.animationController.setAnimation("mixamo.com", -1);
+        this.animationController.setAnimation("Armature|Armature|Armature|run|Armature|run", -1);
         for (int i = 0; i < Map.ROWS; i++) {
             for (int j = 0; j < Map.COLUMNS; j++) {
                 if (Map.map[i][j] == 'p') {
@@ -57,14 +57,14 @@ public class Player extends MovingEntity {
         if(!bomb.hasBoomOnMap) {
             bomb.modelInstance = new ModelInstance(bomb.model);
             bomb.animationController = new AnimationController(bomb.modelInstance);
-            bomb.animationController.setAnimation("Armature|idle", -1);
+            bomb.animationController.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
             bomb.x = Math.round(x / 200) * 200;
             bomb.z = Math.round(z / 200) * 200;
             bomb.modelInstance.transform.setToTranslation(bomb.x, bomb.y , bomb.z);
             bomb.isSet = true;
             bomb.hasBoomOnMap = true;
             // ai đó sửa thành bomb nổi nhé
-            bomb.setTimeout(() -> bomb.destroyBoom(),3000);
+            bomb.setTimeout(() -> bomb.explode(),3000);
         }
     }
 
