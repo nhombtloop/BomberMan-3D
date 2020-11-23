@@ -34,7 +34,7 @@ public class Bomb extends MovingEntity {
         }).start();
     }
 
-    public void destroyBoom() {
+    public void explode() {
         // destroy boom here
         System.out.println("destroy boom");
         hasBoomOnMap = false;
