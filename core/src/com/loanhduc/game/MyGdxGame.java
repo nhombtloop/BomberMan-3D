@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.io.FileNotFoundException;
@@ -28,8 +29,7 @@ public class MyGdxGame implements ApplicationListener {
 	private Portal portal = new Portal();
 
 	public void changeView() {
-		cam.position.set(player.x, 200, player.z-300);
-		cam.lookAt(0, 0, 0);
+
 	}
 
 	@Override
@@ -69,16 +69,6 @@ public class MyGdxGame implements ApplicationListener {
 
 	}
 
-	public void eventHandle() {
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) player.moveLeft();
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) player.moveRight();
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) player.moveUp();
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) player.moveDown();
-		if(Gdx.input.isKeyPressed(Input.Keys.Q)) changeView();
-		if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) player.createBomb();
-		player.getPlayerInstance().transform.setToTranslation(player.x, player.y, player.z);
-	}
-
 	public static ModelBatch getModelBatch() {
 		return modelBatch;
 	}
@@ -92,7 +82,6 @@ public class MyGdxGame implements ApplicationListener {
 	public void render() {
 		cameraInputController.update();
 
-		eventHandle();
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(0.2f,1f,1f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);

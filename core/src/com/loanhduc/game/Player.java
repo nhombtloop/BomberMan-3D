@@ -1,24 +1,23 @@
 package com.loanhduc.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 
 public class Player extends MovingEntity {
-    private ModelInstance playerInstance;
     public Bomb bomb = new Bomb();
 
     public Player() {
         path = "bomberman.g3db";
         velocity = 10;
-        canWalkThrough.add(' ');
     }
 
     @Override
     public void create() {
         super.create();
-        playerInstance = new ModelInstance(model);
-        this.animationController = new AnimationController(playerInstance);
+        modelInstance = new ModelInstance(model);
+        this.animationController = new AnimationController(modelInstance);
         this.animationController.setAnimation("Armature|Armature|Armature|run|Armature|run", -1);
         for (int i = 0; i < Map.ROWS; i++) {
             for (int j = 0; j < Map.COLUMNS; j++) {
@@ -30,12 +29,13 @@ public class Player extends MovingEntity {
                 }
             }
         }
+        modelInstance.transform.setToTranslation(x, y, z);
         bomb.create();
     }
 
     @Override
     public void render() {
-        MyGdxGame.getModelBatch().render(playerInstance, MyGdxGame.getEnvironment());
+        MyGdxGame.getModelBatch().render(modelInstance, MyGdxGame.getEnvironment());
         animationController.update(Gdx.graphics.getDeltaTime());
         if (bomb.isSet) {
             bomb.render();
@@ -51,8 +51,8 @@ public class Player extends MovingEntity {
                 || Map.map[(int) ((z + 150) / 200)][(int) ((x + 150) / 200)] == 'b';
     }
 
-    public ModelInstance getPlayerInstance() {
-        return playerInstance;
+    public ModelInstance getModelInstance() {
+        return modelInstance;
     }
 
 
@@ -73,31 +73,16 @@ public class Player extends MovingEntity {
         }
     }
 
-    public void moveUp() {
-        if (canMoveUp()) {
-            z -= velocity;
-        }
-    }
-
-    public void moveDown() {
-        if (canMoveDown()) {
-            z += velocity;
-        }
-    }
-
-    public void moveLeft() {
-        if (canMoveLeft()) {
-            x -= velocity;
-        }
-    }
-
-    public void moveRight() {
-        if (canMoveRight()) {
-            x += velocity;
-        }
+    public void eventHandle() {
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) moveLeft();
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) moveRight();
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)) moveUp();
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) moveDown();
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) createBomb();
     }
 
     @Override
     public void update() {
+        eventHandle();
     }
 }
