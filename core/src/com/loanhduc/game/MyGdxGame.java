@@ -145,7 +145,7 @@ public class MyGdxGame implements ApplicationListener {
 	public void dispose() {
 		modelBatch.dispose();
 		player.dispose();
-		wall.dispose(); //pha huy
+		wall.dispose();
 		solid.dispose();
 	}
 }

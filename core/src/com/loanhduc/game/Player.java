@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 
 public class Player extends MovingEntity {
+    AnimationController animationController_run;
+    AnimationController animationController_normal;
     public Bomb bomb = new Bomb();
 
     public Player() {
@@ -17,8 +19,10 @@ public class Player extends MovingEntity {
     public void create() {
         super.create();
         modelInstance = new ModelInstance(model);
-        this.animationController = new AnimationController(modelInstance);
-        this.animationController.setAnimation("Armature|Armature|Armature|run|Armature|run", -1);
+        animationController_run = new AnimationController(modelInstance);
+        animationController_normal = new AnimationController(modelInstance);
+        animationController_run.setAnimation("Armature|Armature|Armature|run|Armature|run", -1);
+        animationController_normal.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
         for (int i = 0; i < Map.ROWS; i++) {
             for (int j = 0; j < Map.COLUMNS; j++) {
                 if (Map.map[i][j] == 'p') {
@@ -35,11 +39,10 @@ public class Player extends MovingEntity {
 
     @Override
     public void render() {
-        MyGdxGame.getModelBatch().render(modelInstance, MyGdxGame.getEnvironment());
-        animationController.update(Gdx.graphics.getDeltaTime());
+        super.render();
         if (bomb.isSet) {
             bomb.render();
-            if(!runAwayBomb()) canWalkThrough.remove((Character)'b');
+            if (!runAwayBomb()) canWalkThrough.remove((Character) 'b');
             bomb.animationController.update(Gdx.graphics.getDeltaTime());
         }
     }
@@ -55,6 +58,10 @@ public class Player extends MovingEntity {
         return modelInstance;
     }
 
+    @Override
+    public void update() {
+        eventHandle();
+    }
 
     public void createBomb() {
         if (!bomb.hasBoomOnMap) {
@@ -74,15 +81,15 @@ public class Player extends MovingEntity {
     }
 
     public void eventHandle() {
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) moveLeft();
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) moveRight();
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) moveUp();
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) moveDown();
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) createBomb();
+        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+            animationController_run.update(Gdx.graphics.getDeltaTime());
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) moveLeft();
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) moveRight();
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) moveUp();
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) moveDown();
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) createBomb();
+        }
+        else animationController_normal.update(Gdx.graphics.getDeltaTime());
     }
 
-    @Override
-    public void update() {
-        eventHandle();
-    }
 }
