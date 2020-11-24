@@ -13,6 +13,13 @@ public abstract class MovingEntity extends Entity {
     protected ModelInstance modelInstance;
     protected ArrayList<Character> canWalkThrough = new ArrayList<>();
 
+    @Override
+    public void create() {
+        super.create();
+        modelInstance = new ModelInstance(model);
+        modelInstance.transform.setToTranslation(x, y, z);
+    }
+
     MovingEntity() {
         canWalkThrough.add(' ');
     }

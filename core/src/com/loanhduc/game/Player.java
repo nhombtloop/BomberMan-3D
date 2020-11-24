@@ -17,12 +17,6 @@ public class Player extends MovingEntity {
 
     @Override
     public void create() {
-        super.create();
-        modelInstance = new ModelInstance(model);
-        animationController_run = new AnimationController(modelInstance);
-        animationController_normal = new AnimationController(modelInstance);
-        animationController_run.setAnimation("Armature|Armature|Armature|run|Armature|run", -1);
-        animationController_normal.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
         for (int i = 0; i < Map.ROWS; i++) {
             for (int j = 0; j < Map.COLUMNS; j++) {
                 if (Map.map[i][j] == 'p') {
@@ -33,7 +27,11 @@ public class Player extends MovingEntity {
                 }
             }
         }
-        modelInstance.transform.setToTranslation(x, y, z);
+        super.create();
+        animationController_run = new AnimationController(modelInstance);
+        animationController_normal = new AnimationController(modelInstance);
+        animationController_run.setAnimation("Armature|Armature|Armature|run|Armature|run", -1);
+        animationController_normal.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
         bomb.create();
     }
 

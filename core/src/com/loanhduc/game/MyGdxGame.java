@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.io.FileNotFoundException;
+import java.util.Random;
 
 public class MyGdxGame implements ApplicationListener {
 	private static PerspectiveCamera cam;
@@ -21,6 +22,7 @@ public class MyGdxGame implements ApplicationListener {
 	private static ModelBatch modelBatch;
 	private static Environment environment;
 	protected Stage stage;
+	public static Random generator = new Random();
 
 	private static Player player = new Player();
 	private Wall wall = new Wall();
@@ -60,6 +62,7 @@ public class MyGdxGame implements ApplicationListener {
 		solid.create();
 		wall.create(); //khoi tao
 		portal.create();
+		Enemy1.createEnemy1();
 
 		renderMap();
 	}
@@ -94,6 +97,7 @@ public class MyGdxGame implements ApplicationListener {
 		wall.render();
 		brick.render();
 		portal.render();
+		Enemy1.renderEnemy1();
 
 		modelBatch.end();
 	}
