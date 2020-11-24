@@ -13,11 +13,6 @@ public class Bomb extends MovingEntity {
     }
 
     @Override
-    public void moveTo(float x, float y, float z) {
-
-    }
-
-    @Override
     public void update() {
 
     }
@@ -38,6 +33,7 @@ public class Bomb extends MovingEntity {
         // destroy boom here
         System.out.println("destroy boom");
         hasBoomOnMap = false;
+        Map.map[(int) (z / 200)][(int) (x / 200)] = ' ';
     }
 
     @Override

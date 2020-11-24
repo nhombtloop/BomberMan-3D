@@ -7,12 +7,11 @@ import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 public class Player extends MovingEntity {
     private ModelInstance playerInstance;
     public Bomb bomb = new Bomb();
-    private boolean[] direction = {true, true, true, true}; // up down left right
-
 
     public Player() {
         path = "bomberman.g3db";
         velocity = 10;
+        canWalkThrough.add(' ');
     }
 
     @Override
@@ -26,11 +25,11 @@ public class Player extends MovingEntity {
                 if (Map.map[i][j] == 'p') {
                     x = j * Map.CELL_WIDTH;
                     z = i * Map.CELL_WIDTH;
+                    Map.map[i][j] = ' ';
                     break;
                 }
             }
         }
-
         bomb.create();
     }
 
@@ -40,31 +39,37 @@ public class Player extends MovingEntity {
         animationController.update(Gdx.graphics.getDeltaTime());
         if (bomb.isSet) {
             bomb.render();
+            if(!runAwayBomb()) canWalkThrough.remove((Character)'b');
             bomb.animationController.update(Gdx.graphics.getDeltaTime());
         }
+    }
+
+    boolean runAwayBomb() {
+        if (Map.map[(int) (z / 200)][(int) (x / 200)] == 'b'
+                || Map.map[(int) (z / 200)][(int) ((x + 150) / 200)] == 'b') return true;
+        return Map.map[(int) ((z + 150) / 200)][(int) (x / 200)] == 'b'
+                || Map.map[(int) ((z + 150) / 200)][(int) ((x + 150) / 200)] == 'b';
     }
 
     public ModelInstance getPlayerInstance() {
         return playerInstance;
     }
 
-    @Override
-    public void moveTo(float x, float y, float z) {
-
-    }
 
     public void createBomb() {
-        if(!bomb.hasBoomOnMap) {
+        if (!bomb.hasBoomOnMap) {
             bomb.modelInstance = new ModelInstance(bomb.model);
             bomb.animationController = new AnimationController(bomb.modelInstance);
             bomb.animationController.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
             bomb.x = Math.round(x / 200) * 200;
             bomb.z = Math.round(z / 200) * 200;
-            bomb.modelInstance.transform.setToTranslation(bomb.x, bomb.y , bomb.z);
+            Map.map[(int) (bomb.z / 200)][(int) (bomb.x / 200)] = 'b';
+            bomb.modelInstance.transform.setToTranslation(bomb.x, bomb.y, bomb.z);
             bomb.isSet = true;
             bomb.hasBoomOnMap = true;
+            canWalkThrough.add('b');
             // ai đó sửa thành bomb nổi nhé
-            bomb.setTimeout(() -> bomb.explode(),3000);
+            bomb.setTimeout(() -> bomb.explode(), 3000);
         }
     }
 
@@ -79,46 +84,20 @@ public class Player extends MovingEntity {
             z += velocity;
         }
     }
+
     public void moveLeft() {
         if (canMoveLeft()) {
             x -= velocity;
         }
     }
+
     public void moveRight() {
         if (canMoveRight()) {
             x += velocity;
         }
     }
 
-    private boolean canMoveUp() {
-        if (z < Map.CELL_WIDTH) return false;
-        return (direction[0]);
-    }
-
-    private boolean canMoveDown() {
-        if (z >= Map.CELL_WIDTH * (Map.ROWS - 2)) return false;
-        return (direction[1]);
-    }
-
-    private boolean canMoveRight() {
-        if (x >= Map.CELL_WIDTH * (Map.COLUMNS - 2)) return false;
-        return (direction[3]);
-    }
-
-    private boolean canMoveLeft() {
-        if (x < Map.CELL_WIDTH) return false;
-        return (direction[2]);
-    }
-
     @Override
     public void update() {
-//        for (int i = 0; i < direction.length; i++) {
-//            direction[i] = true;
-//        }
-//        if (Map.map[Math.round(z/200) - 1][Math.round(x/200)] == '#') direction[0] = false;
-//        if (Map.map[Math.round(z/200) + 1][Math.round(x/200)] == '#') direction[1] = false;
-//        if (Map.map[Math.round(z/200)][Math.round(x/200) - 1] == '#') direction[2] = false;
-//        if (Map.map[Math.round(z/200)][Math.round(x/200) + 1] == '#') direction[3] = false;
-
     }
 }

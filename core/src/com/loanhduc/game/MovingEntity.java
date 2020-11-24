@@ -1,15 +1,33 @@
 package com.loanhduc.game;
 
-import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
+import java.util.ArrayList;
 
 public abstract class MovingEntity extends Entity {
-    protected AnimationController animationController;
     protected float x;
     protected float y = 0;
     protected float z;
     protected float velocity;
+    protected ArrayList<Character> canWalkThrough = new ArrayList<>();
 
-    public abstract void moveTo(float x, float y, float z);
+    boolean canMoveUp() {
+        return canWalkThrough.contains(Map.map[(int) ((z - velocity) / 200)][(int) (x / 200)])
+                && canWalkThrough.contains(Map.map[(int) ((z - velocity) / 200)][(int) ((x + 150) / 200)]);
+    }
+
+    boolean canMoveDown() {
+        return canWalkThrough.contains(Map.map[(int) ((z + 150 + velocity) / 200)][(int) (x / 200)])
+                && canWalkThrough.contains(Map.map[(int) ((z + 150 + velocity) / 200)][(int) ((x + 150) / 200)]);
+    }
+
+    boolean canMoveLeft() {
+        return canWalkThrough.contains(Map.map[(int) (z / 200)][(int) ((x - velocity) / 200)])
+                && canWalkThrough.contains(Map.map[(int) ((z + 150) / 200)][(int) ((x - velocity) / 200)]);
+    }
+
+    boolean canMoveRight() {
+        return canWalkThrough.contains(Map.map[(int) (z / 200)][(int) ((x + 150 + velocity) / 200)])
+                && canWalkThrough.contains(Map.map[(int) ((z + 150) / 200)][(int) ((x + 150 + velocity) / 200)]);
+    }
 
     public abstract void update();
 }
