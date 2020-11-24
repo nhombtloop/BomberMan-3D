@@ -8,11 +8,13 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
+import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.utils.UBJsonReader;
 
 public abstract class Entity {
     protected Model model;
     protected String path;
+    protected AnimationController animationController;
 
     public void create() {
         UBJsonReader jsonReader = new UBJsonReader();
