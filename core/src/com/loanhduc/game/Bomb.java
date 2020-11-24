@@ -33,6 +33,7 @@ public class Bomb extends MovingEntity {
         // destroy boom here
         System.out.println("destroy boom");
         hasBoomOnMap = false;
+        Map.map[(int) (z / 200)][(int) (x / 200)] = ' ';
     }
 
     @Override
