@@ -9,10 +9,15 @@ public class Player extends MovingEntity {
     AnimationController animationController_run;
     AnimationController animationController_normal;
     public Bomb bomb = new Bomb();
+    int maxBomb;
+    int bombSet;
+
 
     public Player() {
         path = "bomberman.g3db";
         velocity = 10;
+        bombSet = 0;
+        maxBomb = 3;
         canWalkThrough.add(' ');
         canWalkThrough.add('x'); // portal
         canWalkThrough.add('b'); // bomb item
@@ -47,7 +52,7 @@ public class Player extends MovingEntity {
         if (bomb.isSet) {
             bomb.render();
             if (!runAwayBomb()) canWalkThrough.remove((Character) 'B');
-            bomb.animationController.update(Gdx.graphics.getDeltaTime());
+
         }
     }
 
@@ -68,19 +73,22 @@ public class Player extends MovingEntity {
     }
 
     public void createBomb() {
-        if (!bomb.hasBoomOnMap) {
-            bomb.modelInstance = new ModelInstance(bomb.model);
-            bomb.animationController = new AnimationController(bomb.modelInstance);
-            bomb.animationController.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
-            bomb.x = Math.round(x / 200) * 200;
-            bomb.z = Math.round(z / 200) * 200;
-            Map.map[(int) (bomb.z / Map.CELL_WIDTH)][(int) (bomb.x / Map.CELL_WIDTH)] = 'B';
-            bomb.modelInstance.transform.setToTranslation(bomb.x, bomb.y, bomb.z);
+        int bombInstanceX = Math.round(x / 200) * 200;
+        int bombInstanceZ = Math.round(z / 200) * 200;
+        if (Map.map[(bombInstanceZ / Map.CELL_WIDTH)][(bombInstanceX / Map.CELL_WIDTH)] == ' ' && bombSet < maxBomb) {
+            bombSet++;
+            ModelInstance bombInstance = new ModelInstance(bomb.model);
+            bomb.modelInstances.add(bombInstance);
+            AnimationController bombAnimationController = new AnimationController(bombInstance);
+            bomb.animationControllers.add(bombAnimationController);
+            bombAnimationController.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
+            Map.map[(bombInstanceZ / Map.CELL_WIDTH)][(bombInstanceX / Map.CELL_WIDTH)] = 'B';
+            bombInstance.transform.setToTranslation(bombInstanceX, 0, bombInstanceZ);
             bomb.isSet = true;
-            bomb.hasBoomOnMap = true;
+
             canWalkThrough.add('B');
             // ai đó sửa thành bomb nổi nhé
-            bomb.setTimeout(() -> bomb.explode(), 3000);
+            bomb.setTimeout(() -> bomb.explode(bombInstance, bombAnimationController, bombInstanceX, bombInstanceZ), 3000);
         }
     }
 
@@ -91,9 +99,10 @@ public class Player extends MovingEntity {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) moveRight();
             if (Gdx.input.isKeyPressed(Input.Keys.UP)) moveUp();
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) moveDown();
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) createBomb();
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) createBomb();
         }
         else animationController_normal.update(Gdx.graphics.getDeltaTime());
     }
+
 
 }
