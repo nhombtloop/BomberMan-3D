@@ -1,5 +1,6 @@
 package com.loanhduc.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 
@@ -41,8 +42,10 @@ public class Bomb extends StaticEntity {
 
     @Override
     public void render() {
-        for (ModelInstance instance : modelInstances) {
-            MyGdxGame.getModelBatch().render(instance, MyGdxGame.getEnvironment());
+        for (int i = 0; i < modelInstances.size(); i++) {
+            MyGdxGame.getModelBatch().render(modelInstances.get(i), MyGdxGame.getEnvironment());
+            animationControllers.get(i).update(Gdx.graphics.getDeltaTime());
         }
+
     }
 }
