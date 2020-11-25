@@ -11,6 +11,12 @@ public class Player extends MovingEntity {
     public Player() {
         path = "bomberman.g3db";
         velocity = 10;
+        canWalkThrough.add(' ');
+        canWalkThrough.add('x'); // portal
+        canWalkThrough.add('b'); // bomb item
+        canWalkThrough.add('s'); // speed item
+        canWalkThrough.add('f'); // flame item
+
     }
 
     @Override
@@ -63,7 +69,7 @@ public class Player extends MovingEntity {
             bomb.animationController.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
             bomb.x = Math.round(x / 200) * 200;
             bomb.z = Math.round(z / 200) * 200;
-            Map.map[(int) (bomb.z / 200)][(int) (bomb.x / 200)] = 'b';
+            Map.map[(int) (bomb.z / Map.CELL_WIDTH)][(int) (bomb.x / Map.CELL_WIDTH)] = 'b';
             bomb.modelInstance.transform.setToTranslation(bomb.x, bomb.y, bomb.z);
             bomb.isSet = true;
             bomb.hasBoomOnMap = true;
