@@ -46,16 +46,16 @@ public class Player extends MovingEntity {
         super.render();
         if (bomb.isSet) {
             bomb.render();
-            if (!runAwayBomb()) canWalkThrough.remove((Character) 'b');
+            if (!runAwayBomb()) canWalkThrough.remove((Character) 'B');
             bomb.animationController.update(Gdx.graphics.getDeltaTime());
         }
     }
 
     boolean runAwayBomb() {
-        if (Map.map[(int) (z / 200)][(int) (x / 200)] == 'b'
-                || Map.map[(int) (z / 200)][(int) ((x + 150) / 200)] == 'b') return true;
-        return Map.map[(int) ((z + 150) / 200)][(int) (x / 200)] == 'b'
-                || Map.map[(int) ((z + 150) / 200)][(int) ((x + 150) / 200)] == 'b';
+        if (Map.map[(int) (z / 200)][(int) (x / 200)] == 'B'
+                || Map.map[(int) (z / 200)][(int) ((x + 150) / 200)] == 'B') return true;
+        return Map.map[(int) ((z + 150) / 200)][(int) (x / 200)] == 'B'
+                || Map.map[(int) ((z + 150) / 200)][(int) ((x + 150) / 200)] == 'B';
     }
 
     public ModelInstance getModelInstance() {
@@ -74,11 +74,11 @@ public class Player extends MovingEntity {
             bomb.animationController.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
             bomb.x = Math.round(x / 200) * 200;
             bomb.z = Math.round(z / 200) * 200;
-            Map.map[(int) (bomb.z / Map.CELL_WIDTH)][(int) (bomb.x / Map.CELL_WIDTH)] = 'b';
+            Map.map[(int) (bomb.z / Map.CELL_WIDTH)][(int) (bomb.x / Map.CELL_WIDTH)] = 'B';
             bomb.modelInstance.transform.setToTranslation(bomb.x, bomb.y, bomb.z);
             bomb.isSet = true;
             bomb.hasBoomOnMap = true;
-            canWalkThrough.add('b');
+            canWalkThrough.add('B');
             // ai đó sửa thành bomb nổi nhé
             bomb.setTimeout(() -> bomb.explode(), 3000);
         }

@@ -2,7 +2,6 @@ package com.loanhduc.game;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.io.FileNotFoundException;
@@ -32,6 +30,7 @@ public class MyGdxGame implements ApplicationListener {
 	private SpeedItem speedItem = new SpeedItem();
 	private FlameItem flameItem = new FlameItem();
 	private BombItem bombItem = new BombItem();
+	private ItemBox itemBox = new ItemBox();
 
 	public void changeView() {
 
@@ -58,8 +57,8 @@ public class MyGdxGame implements ApplicationListener {
 
 		player.create();
 		environment = new Environment();
-		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 255f, 255f, 255f, 1.0f));
-		environment.add(new DirectionalLight().set(255f, 255f, 255f, -10f, -10f, -10f));
+		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 200f, 200f, 200f, 1.0f));
+		environment.add(new DirectionalLight().set(200f, 200f, 200f, -10f, -10f, -10f));
 
 		brick.create();
 		solid.create();
@@ -69,7 +68,7 @@ public class MyGdxGame implements ApplicationListener {
 		speedItem.create();
 		flameItem.create();
 		bombItem.create();
-
+		itemBox.create();
 		Enemy1.createEnemy1();
 
 
@@ -105,6 +104,7 @@ public class MyGdxGame implements ApplicationListener {
 		player.render();
 		wall.render();
 		brick.render();
+		itemBox.render();
 		portal.render();
 
 		speedItem.render();
@@ -131,7 +131,7 @@ public class MyGdxGame implements ApplicationListener {
 				solid.spawn(x, 0, z);
 				switch (c) {
 					case '#': // wall
-						wall.spawn(x, 100, z);
+						wall.spawn(x, 0, z);
 						break;
 					case '*': // brick
 						brick.spawn(x + 30, 0, z - 10);
@@ -147,6 +147,9 @@ public class MyGdxGame implements ApplicationListener {
 						break;
 					case 's': // speed Item
 						speedItem.spawn(x, 0, z);
+						break;
+					case '?': // Question Mark block
+						itemBox.spawn(x, 0, z);
 						break;
 				}
 			}
@@ -172,5 +175,6 @@ public class MyGdxGame implements ApplicationListener {
 		brick.dispose();
 		portal.dispose();
 		speedItem.dispose();
+		itemBox.dispose();
 	}
 }
