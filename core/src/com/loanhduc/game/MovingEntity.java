@@ -13,6 +13,13 @@ public abstract class MovingEntity extends Entity {
     protected ModelInstance modelInstance;
     protected ArrayList<Character> canWalkThrough = new ArrayList<>();
 
+    @Override
+    public void create() {
+        super.create();
+        modelInstance = new ModelInstance(model);
+        modelInstance.transform.setToTranslation(x, y, z);
+    }
+
     MovingEntity() {
         canWalkThrough.add(' ');
     }
@@ -68,6 +75,11 @@ public abstract class MovingEntity extends Entity {
     boolean canMoveRight() {
         return canWalkThrough.contains(Map.map[(int) (z / 200)][(int) ((x + 150 + velocity) / 200)])
                 && canWalkThrough.contains(Map.map[(int) ((z + 150) / 200)][(int) ((x + 150 + velocity) / 200)]);
+    }
+
+    @Override
+    public void render() {
+        MyGdxGame.getModelBatch().render(modelInstance, MyGdxGame.getEnvironment());
     }
 
     public abstract void update();

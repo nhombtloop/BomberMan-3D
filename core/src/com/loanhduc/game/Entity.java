@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.UBJsonReader;
 public abstract class Entity {
     protected Model model;
     protected String path;
-    protected AnimationController animationController;
 
     public void create() {
         UBJsonReader jsonReader = new UBJsonReader();

@@ -1,9 +1,12 @@
 package com.loanhduc.game;
 
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 
 
 public class Bomb extends MovingEntity {
+    AnimationController animationController;
+
     ModelInstance modelInstance;
     boolean isSet = false;
     boolean hasBoomOnMap = false;
