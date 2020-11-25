@@ -178,4 +178,8 @@ public class MyGdxGame implements ApplicationListener {
 		speedItem.dispose();
 		itemBox.dispose();
 	}
+
+	public static Player getPlayer() {
+		return player;
+	}
 }

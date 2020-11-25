@@ -3,22 +3,19 @@ package com.loanhduc.game;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class Bomb extends MovingEntity {
-    AnimationController animationController;
 
-    ModelInstance modelInstance;
+public class Bomb extends StaticEntity {
+    List<AnimationController> animationControllers = new ArrayList<>();
+    List<ModelInstance> modelInstances = new ArrayList<>();
     boolean isSet = false;
-    boolean hasBoomOnMap = false;
 
     public Bomb() {
         path = "bomb.g3db";
     }
 
-    @Override
-    public void update() {
-
-    }
 
     public void setTimeout(Runnable runnable, int delay){
         new Thread(() -> {
@@ -32,16 +29,20 @@ public class Bomb extends MovingEntity {
         }).start();
     }
 
-    public void explode() {
+    public void explode(ModelInstance instance, AnimationController controller, int bombInstanceX, int bombInstanceZ) {
         // destroy boom here
         System.out.println("destroy boom");
         SoundEffect.playSoundBoom();
-        hasBoomOnMap = false;
-        Map.map[(int) (z / Map.CELL_WIDTH)][(int) (x / Map.CELL_WIDTH)] = ' ';
+        Map.map[(bombInstanceZ / Map.CELL_WIDTH)][(bombInstanceX / Map.CELL_WIDTH)] = ' ';
+        MyGdxGame.getPlayer().bombSet--;
+        modelInstances.remove(instance);
+        animationControllers.remove(controller);
     }
 
     @Override
     public void render() {
-        MyGdxGame.getModelBatch().render(modelInstance, MyGdxGame.getEnvironment());
+        for (ModelInstance instance : modelInstances) {
+            MyGdxGame.getModelBatch().render(instance, MyGdxGame.getEnvironment());
+        }
     }
 }

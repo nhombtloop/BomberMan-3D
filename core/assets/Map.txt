@@ -27,6 +27,7 @@ Tiles:
 # - Wall
 * - Brick
 x - Portal
+? - Item Box
 
 Character:
 p - Bomber
