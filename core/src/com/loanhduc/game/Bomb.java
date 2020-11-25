@@ -35,6 +35,7 @@ public class Bomb extends MovingEntity {
     public void explode() {
         // destroy boom here
         System.out.println("destroy boom");
+        SoundEffect.playSoundBoom();
         hasBoomOnMap = false;
         Map.map[(int) (z / Map.CELL_WIDTH)][(int) (x / Map.CELL_WIDTH)] = ' ';
     }

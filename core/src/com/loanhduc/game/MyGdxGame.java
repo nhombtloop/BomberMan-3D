@@ -73,6 +73,7 @@ public class MyGdxGame implements ApplicationListener {
 
 
 		renderMap();
+		SoundEffect.playSoundInGame();
 	}
 
 	@Override
