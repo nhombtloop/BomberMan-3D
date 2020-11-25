@@ -29,6 +29,9 @@ public class MyGdxGame implements ApplicationListener {
 	private Brick brick = new Brick();
 	private Solid solid = new Solid();
 	private Portal portal = new Portal();
+	private SpeedItem speedItem = new SpeedItem();
+	private FlameItem flameItem = new FlameItem();
+	private BombItem bombItem = new BombItem();
 
 	public void changeView() {
 
@@ -62,7 +65,13 @@ public class MyGdxGame implements ApplicationListener {
 		solid.create();
 		wall.create(); //khoi tao
 		portal.create();
+
+		speedItem.create();
+		flameItem.create();
+		bombItem.create();
+
 		Enemy1.createEnemy1();
+
 
 		renderMap();
 	}
@@ -97,7 +106,13 @@ public class MyGdxGame implements ApplicationListener {
 		wall.render();
 		brick.render();
 		portal.render();
+
+		speedItem.render();
+		flameItem.render();
+		bombItem.render();
+
 		Enemy1.renderEnemy1();
+
 
 		modelBatch.end();
 	}
@@ -125,10 +140,13 @@ public class MyGdxGame implements ApplicationListener {
 						portal.spawn(x, 0, z);
 						break;
 					case 'b': // bomb item
+						bombItem.spawn(x, 0, z);
 						break;
 					case 'f': // flame Item
+						flameItem.spawn(x, 0, z);
 						break;
 					case 's': // speed Item
+						speedItem.spawn(x, 0, z);
 						break;
 				}
 			}
@@ -151,5 +169,8 @@ public class MyGdxGame implements ApplicationListener {
 		player.dispose();
 		wall.dispose();
 		solid.dispose();
+		brick.dispose();
+		portal.dispose();
+		speedItem.dispose();
 	}
 }
