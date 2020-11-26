@@ -11,6 +11,11 @@ public abstract class StaticEntity extends Entity{
     public void spawn(float x, float y, float z) {
         ModelInstance modelInstance = new ModelInstance(model);
         modelInstance.transform.setToTranslation(x, y, z);
+        width = 200;
+        height = 200;
+        this.x = x;
+        this.y = y;
+        this.z = z;
         rallyEntity.add(modelInstance);
     }
 

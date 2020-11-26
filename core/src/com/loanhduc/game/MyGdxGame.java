@@ -184,4 +184,6 @@ public class MyGdxGame extends ScreenAdapter {
 	public static Player getPlayer() {
 		return player;
 	}
+
+
 }
