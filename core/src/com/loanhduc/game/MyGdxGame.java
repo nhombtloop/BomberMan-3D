@@ -1,7 +1,9 @@
 package com.loanhduc.game;
 
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
@@ -14,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import java.io.FileNotFoundException;
 import java.util.Random;
 
-public class MyGdxGame implements ApplicationListener {
+public class MyGdxGame extends ScreenAdapter {
 	private static PerspectiveCamera cam;
 	private static CameraInputController cameraInputController;
 	private static ModelBatch modelBatch;
@@ -37,7 +39,7 @@ public class MyGdxGame implements ApplicationListener {
 	}
 
 	@Override
-	public void create() {
+	public void show() {
 		cam = new PerspectiveCamera(76, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		cam.position.set(0f, 2000, 100f);
 		cam.lookAt(0f, 0f, 0f);
@@ -91,7 +93,7 @@ public class MyGdxGame implements ApplicationListener {
 
 
 	@Override
-	public void render() {
+	public void render(float delta) {
 		cameraInputController.update();
 
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
