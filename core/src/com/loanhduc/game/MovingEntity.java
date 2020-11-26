@@ -6,9 +6,6 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 
 public abstract class MovingEntity extends Entity {
-    protected float x;
-    protected float y = 0;
-    protected float z;
     protected float velocity;
     protected ModelInstance modelInstance;
     protected ArrayList<Character> canWalkThrough = new ArrayList<>();
@@ -29,6 +26,13 @@ public abstract class MovingEntity extends Entity {
         modelInstance.transform.rotate(new Vector3(0, 1, 0), 180);
         if (canMoveUp()) {
             z -= velocity;
+            if (collisionWithEnemy()) {
+                System.out.println("collision");
+                MyGdxGame.getPlayer().setDead(true);
+            }
+            if (collisionWithItem()) {
+                System.out.println("item");
+            }
         }
     }
 
@@ -37,6 +41,13 @@ public abstract class MovingEntity extends Entity {
         modelInstance.transform.rotate(new Vector3(0, 1, 0), 0);
         if (canMoveDown()) {
             z += velocity;
+            if (collisionWithEnemy()) {
+                System.out.println("collision");
+                MyGdxGame.getPlayer().setDead(true);
+            }
+            if (collisionWithItem()) {
+                System.out.println("item");
+            }
         }
     }
 
@@ -45,6 +56,13 @@ public abstract class MovingEntity extends Entity {
         modelInstance.transform.rotate(new Vector3(0, 1, 0), -90);
         if (canMoveLeft()) {
             x -= velocity;
+            if (collisionWithEnemy()) {
+                System.out.println("collision");
+                MyGdxGame.getPlayer().setDead(true);
+            }
+            if (collisionWithItem()) {
+                System.out.println("item");
+            }
         }
     }
 
@@ -53,6 +71,13 @@ public abstract class MovingEntity extends Entity {
         modelInstance.transform.rotate(new Vector3(0, 1, 0), 90);
         if (canMoveRight()) {
             x += velocity;
+            if (collisionWithEnemy()) {
+                System.out.println("collision");
+                MyGdxGame.getPlayer().setDead(true);
+            }
+            if (collisionWithItem()) {
+                System.out.println("item");
+            }
         }
     }
 
@@ -83,4 +108,29 @@ public abstract class MovingEntity extends Entity {
     }
 
     public abstract void update();
+
+    private boolean collisionWith(Entity other) {
+        return (MyGdxGame.getPlayer().x < other.x + other.width &&
+                MyGdxGame.getPlayer().x + MyGdxGame.getPlayer().width > other.x &&
+                MyGdxGame.getPlayer().z < other.z + other.height &&
+                MyGdxGame.getPlayer().z + MyGdxGame.getPlayer().height > other.z);
+    }
+
+    public boolean collisionWithEnemy() {
+        for (int i = 0; i < Enemy1.enemy1.size(); i++) {
+            if(collisionWith(Enemy1.enemy1.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean collisionWithItem() {
+        for (Items item : Items.getItems()) {
+            if (collisionWith(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

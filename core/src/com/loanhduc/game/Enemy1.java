@@ -15,6 +15,8 @@ public class Enemy1 {
         public Robot() {
             path = "robot.g3db";
             velocity = 1;
+            width = 200;
+            height = 200;
             canWalkThrough.add('1');
             canWalkThrough.add('#');
             canWalkThrough.add('*');

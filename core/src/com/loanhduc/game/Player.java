@@ -8,21 +8,27 @@ import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 public class Player extends MovingEntity {
     AnimationController animationController_run;
     AnimationController animationController_normal;
+    AnimationController animationController_dead;
     public Bomb bomb = new Bomb();
     int maxBomb;
     int bombSet;
+    boolean isDead;
 
 
     public Player() {
         path = "bomberman.g3db";
+        isDead = false;
         velocity = 10;
         bombSet = 0;
-        maxBomb = 3;
+        maxBomb = 2;
+        width = 150;
+        height = 150;
         canWalkThrough.add(' ');
         canWalkThrough.add('x'); // portal
         canWalkThrough.add('b'); // bomb item
         canWalkThrough.add('s'); // speed item
         canWalkThrough.add('f'); // flame item
+        canWalkThrough.add('1'); // enemy1
 
     }
 
@@ -41,8 +47,10 @@ public class Player extends MovingEntity {
         super.create();
         animationController_run = new AnimationController(modelInstance);
         animationController_normal = new AnimationController(modelInstance);
+        animationController_dead = new AnimationController(modelInstance);
         animationController_run.setAnimation("Armature|Armature|Armature|run|Armature|run", -1);
         animationController_normal.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
+        animationController_dead.setAnimation("Armature|Armature|Armature|death|Armature|death", -1);
         bomb.create();
     }
 
@@ -93,7 +101,9 @@ public class Player extends MovingEntity {
     }
 
     public void eventHandle() {
-        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+        if (MyGdxGame.getPlayer().isDead()) {
+            animationController_dead.update(Gdx.graphics.getDeltaTime());
+        } else if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             animationController_run.update(Gdx.graphics.getDeltaTime());
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) moveLeft();
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) moveRight();
@@ -104,5 +114,11 @@ public class Player extends MovingEntity {
         else animationController_normal.update(Gdx.graphics.getDeltaTime());
     }
 
+    public boolean isDead() {
+        return isDead;
+    }
 
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
 }
