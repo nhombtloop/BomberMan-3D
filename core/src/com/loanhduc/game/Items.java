@@ -1,13 +1,35 @@
 package com.loanhduc.game;
 
-
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Items extends StaticEntity {
-    static List<Items> items = new ArrayList<>();
+    protected static List<ObjectInstance> itemInstances = new ArrayList<>();
 
-    public static List<Items> getItems() {
-        return items;
+    public static List<ObjectInstance> getItemInstances() {
+        return itemInstances;
+    }
+
+    @Override
+    public void spawn(float x, float y, float z) {
+        ModelInstance modelInstance = new ModelInstance(model);
+        modelInstance.transform.setToTranslation(x, y, z);
+        ObjectInstance objectInstance = new ObjectInstance(modelInstance, x, y, z);
+        width = 200;
+        height = 200;
+        rallyEntity.add(objectInstance);
+        itemInstances.add(objectInstance);
+    }
+
+    public static void removeInstance(ObjectInstance objectInstance) {
+        itemInstances.remove(objectInstance);
+    }
+
+    @Override
+    public void render() {
+        for (ObjectInstance objectInstance : itemInstances) {
+            MyGdxGame.getModelBatch().render(objectInstance.modelInstance, MyGdxGame.getEnvironment());
+        }
     }
 }

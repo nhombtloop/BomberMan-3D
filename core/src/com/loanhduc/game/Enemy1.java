@@ -52,6 +52,7 @@ public class Enemy1 {
                     newRb.z = i * Map.CELL_WIDTH;
                     newRb.create();
                     enemy1.add(newRb);
+                    Map.map[i][j] = ' ';
                 }
             }
         }

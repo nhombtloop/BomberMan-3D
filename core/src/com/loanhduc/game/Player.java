@@ -10,8 +10,9 @@ public class Player extends MovingEntity {
     AnimationController animationController_normal;
     AnimationController animationController_dead;
     public Bomb bomb = new Bomb();
-    int maxBomb;
     int bombSet;
+    int maxBomb;
+    int flameLength;
     boolean isDead;
 
 
@@ -23,6 +24,7 @@ public class Player extends MovingEntity {
         maxBomb = 2;
         width = 150;
         height = 150;
+        flameLength = 1;
         canWalkThrough.add(' ');
         canWalkThrough.add('x'); // portal
         canWalkThrough.add('b'); // bomb item
@@ -112,6 +114,79 @@ public class Player extends MovingEntity {
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) createBomb();
         }
         else animationController_normal.update(Gdx.graphics.getDeltaTime());
+    }
+
+    public boolean collisionWithEnemy() {
+        for (int i = 0; i < Enemy1.enemy1.size(); i++) {
+            if(collisionWith(Enemy1.enemy1.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public char collisionWithItem() {
+        for (ObjectInstance objectInstance : Items.getItemInstances()) {
+            if (collisionWith(objectInstance)) {
+                Items.removeInstance(objectInstance);
+                char c = objectInstance.getEntity();
+                objectInstance.disappear();
+                return c;
+            }
+        }
+        return ' ';
+    }
+
+    @Override
+    public void moveUp() {
+        super.moveUp();
+        checkCollision();
+    }
+
+    @Override
+    public void moveDown() {
+        super.moveDown();
+        checkCollision();
+    }
+
+    @Override
+    public void moveLeft() {
+        super.moveLeft();
+        checkCollision();
+    }
+
+    @Override
+    public void moveRight() {
+        super.moveRight();
+        checkCollision();
+    }
+
+    public void checkCollision() {
+        if (collisionWithEnemy()) {
+            System.out.println("collision");
+            MyGdxGame.getPlayer().setDead(true);
+        }
+        char entity = collisionWithItem();
+        getItem(entity);
+    }
+
+    private void getItem(char item) {
+        if (item != ' ') {
+            switch (item) {
+                case 'b':
+                    maxBomb += 1;
+                    System.out.println("Max Bomb = " + maxBomb);
+                    break;
+                case 'f':
+                    flameLength += 1;
+                    System.out.println("Flame Length = " + flameLength);
+                    break;
+                case 's':
+                    velocity += 2;
+                    System.out.println("speed = " + velocity);
+                    break;
+            }
+        }
     }
 
     public boolean isDead() {

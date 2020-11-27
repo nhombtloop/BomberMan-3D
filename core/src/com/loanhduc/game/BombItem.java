@@ -6,4 +6,5 @@ public class BombItem extends Items {
         path = "bombItem.g3db";
     }
 
+
 }

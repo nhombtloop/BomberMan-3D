@@ -178,6 +178,8 @@ public class MyGdxGame extends ScreenAdapter {
 		brick.dispose();
 		portal.dispose();
 		speedItem.dispose();
+		flameItem.dispose();
+		bombItem.dispose();
 		itemBox.dispose();
 	}
 
