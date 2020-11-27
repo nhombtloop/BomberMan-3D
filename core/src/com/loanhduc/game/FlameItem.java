@@ -6,4 +6,5 @@ public class FlameItem extends Items {
         path = "flameItem.g3db";
     }
 
+
 }
