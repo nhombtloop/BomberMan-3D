@@ -174,15 +174,15 @@ public class Player extends MovingEntity {
         if (item != ' ') {
             switch (item) {
                 case 'b':
-                    maxBomb += 1;
+                    if (maxBomb < 6) maxBomb += 1;
                     System.out.println("Max Bomb = " + maxBomb);
                     break;
                 case 'f':
-                    flameLength += 1;
+                    if (flameLength < 6) flameLength += 1;
                     System.out.println("Flame Length = " + flameLength);
                     break;
                 case 's':
-                    velocity += 2;
+                    if (velocity < 18) velocity += 2;
                     System.out.println("speed = " + velocity);
                     break;
             }
