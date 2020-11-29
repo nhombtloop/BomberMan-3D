@@ -1,4 +1,4 @@
-package com.loanhduc.game;
+package com.loanhduc.game.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;

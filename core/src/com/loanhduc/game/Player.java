@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
+import com.loanhduc.game.screen.MyGdxGame;
 
 public class Player extends MovingEntity {
     AnimationController animationController_run;
@@ -97,7 +98,7 @@ public class Player extends MovingEntity {
             bomb.isSet = true;
 
             canWalkThrough.add('B');
-            // ai đó sửa thành bomb nổi nhé
+            // ai đó sửa thành bomb nổ nhé
             bomb.setTimeout(() -> bomb.explode(bombInstance, bombAnimationController, bombInstanceX, bombInstanceZ), 3000);
         }
     }

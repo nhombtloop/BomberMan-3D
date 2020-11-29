@@ -1,6 +1,7 @@
 package com.loanhduc.game;
 
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.loanhduc.game.screen.MyGdxGame;
 
 import java.util.ArrayList;
 import java.util.List;

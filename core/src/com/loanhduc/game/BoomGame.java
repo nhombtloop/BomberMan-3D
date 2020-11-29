@@ -1,6 +1,7 @@
 package com.loanhduc.game;
 
 import com.badlogic.gdx.Game;
+import com.loanhduc.game.screen.Menu;
 
 public class BoomGame extends Game {
 
