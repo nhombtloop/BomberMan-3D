@@ -3,6 +3,8 @@ package com.loanhduc.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
+import com.loanhduc.game.screen.MyGdxGame;
+import com.loanhduc.game.util.SoundEffect;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,6 +2,8 @@ package com.loanhduc.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
+import com.badlogic.gdx.math.Vector3;
+import com.loanhduc.game.screen.MyGdxGame;
 
 import java.util.ArrayList;
 
@@ -10,6 +12,8 @@ public class Enemy1 {
 
     static class Robot extends MovingEntity {
         int rdNumber = 0;
+        boolean turnLeft = true;
+        boolean turnRight = false;
         AnimationController animationController_normal;
 
         public Robot() {
@@ -17,9 +21,12 @@ public class Enemy1 {
             velocity = 1;
             width = 200;
             height = 200;
+            canWalkThrough.add('p');
             canWalkThrough.add('1');
-            canWalkThrough.add('#');
-            canWalkThrough.add('*');
+            canWalkThrough.add(' ');
+            canWalkThrough.add('b'); // bomb item
+            canWalkThrough.add('s'); // speed item
+            canWalkThrough.add('f'); // flame item
         }
 
         @Override
@@ -33,12 +40,56 @@ public class Enemy1 {
         @Override
         public void render() {
             super.render();
+            if (turnLeft) {
+                this.moveLeft();
+            } else if (turnRight) {
+                this.moveRight();
+            }
             animationController_normal.update(Gdx.graphics.getDeltaTime());
         }
 
         @Override
         public void update() {
 
+        }
+
+        @Override
+        public void moveLeft() {
+            modelInstance.transform.setToTranslation(x, y, z);
+            modelInstance.transform.rotate(new Vector3(0, 1, 0), -90);
+            if (canMoveLeft()) {
+                x -= velocity;
+            } else {
+                turnLeft = false;
+                turnRight = true;
+            }
+            checkCollision();
+        }
+
+        @Override
+        public void moveRight() {
+            modelInstance.transform.setToTranslation(x, y, z);
+            modelInstance.transform.rotate(new Vector3(0, 1, 0), 90);
+            if (canMoveRight()) {
+                x += velocity;
+            } else {
+                turnRight = false;
+                turnLeft = true;
+            }
+            checkCollision();
+        }
+
+        private boolean collisionWithPlayer() {
+            if(collisionWith(this)) {
+                return true;
+            }
+            return false;
+        }
+
+        public void checkCollision() {
+            if (collisionWithPlayer()) {
+                MyGdxGame.getPlayer().setDead(true);
+            }
         }
 
     }
@@ -59,7 +110,7 @@ public class Enemy1 {
     }
 
     public static void renderEnemy1() {
-        for(Robot i : enemy1) {
+        for (Robot i : enemy1) {
             i.render();
         }
     }

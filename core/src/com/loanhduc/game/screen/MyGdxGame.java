@@ -1,7 +1,5 @@
-package com.loanhduc.game;
+package com.loanhduc.game.screen;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,6 +10,8 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.loanhduc.game.*;
+import com.loanhduc.game.util.SoundEffect;
 
 import java.io.FileNotFoundException;
 import java.util.Random;
@@ -121,8 +121,8 @@ public class MyGdxGame extends ScreenAdapter {
 	}
 
 	private void cameraFollowPlayer() {
-		cam.position.set(player.x, 1500, player.z + 600);
-		cam.lookAt(player.x, player.y, player.z);
+		cam.position.set(player.getX(), 1500, player.getZ() + 600);
+		cam.lookAt(player.getX(), player.getY(), player.getZ());
 	}
 
 	public void renderMap() {
