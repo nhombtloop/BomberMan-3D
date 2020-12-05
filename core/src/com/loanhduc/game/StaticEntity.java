@@ -12,7 +12,7 @@ public abstract class StaticEntity extends Entity{
     public void spawn(float x, float y, float z) {
         ModelInstance modelInstance = new ModelInstance(model);
         modelInstance.transform.setToTranslation(x, y, z);
-        ObjectInstance objectInstance = new ObjectInstance(modelInstance, x, y, z);
+        ObjectInstance objectInstance = new ObjectInstance(modelInstance);
         width = 200;
         height = 200;
         rallyEntity.add(objectInstance);
@@ -24,7 +24,7 @@ public abstract class StaticEntity extends Entity{
 
     public void render() {
         for (ObjectInstance objectInstance : rallyEntity) {
-            MyGdxGame.getModelBatch().render(objectInstance.modelInstance, MyGdxGame.getEnvironment());
+            MyGdxGame.getModelBatch().render(objectInstance.getModelInstance(), MyGdxGame.getEnvironment());
         }
     }
 

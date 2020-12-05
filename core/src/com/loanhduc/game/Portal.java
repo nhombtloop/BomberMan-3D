@@ -19,7 +19,7 @@ public class Portal extends StaticEntity {
     public void spawn(float x, float y, float z) {
         ModelInstance modelInstance = new ModelInstance(model);
         modelInstance.transform.setToTranslation(x, y, z);
-        ObjectInstance objectInstance = new ObjectInstance(modelInstance, x, y, z);
+        ObjectInstance objectInstance = new ObjectInstance(modelInstance);
         rallyEntity.add(objectInstance);
 
         AnimationController animationController = new AnimationController(modelInstance);
@@ -31,7 +31,7 @@ public class Portal extends StaticEntity {
     public void render() {
         super.render();
         for (int i = 0; i < rallyEntity.size(); i++) {
-            MyGdxGame.getModelBatch().render(rallyEntity.get(i).modelInstance, MyGdxGame.getEnvironment());
+            MyGdxGame.getModelBatch().render(rallyEntity.get(i).getModelInstance(), MyGdxGame.getEnvironment());
             animationControllers.get(i).update(Gdx.graphics.getDeltaTime());
         }
     }
