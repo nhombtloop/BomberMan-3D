@@ -90,10 +90,10 @@ public abstract class MovingEntity extends Entity {
     }
 
     protected boolean collisionWith(ObjectInstance other) {
-        return (MyGdxGame.getPlayer().x < other.x + other.width &&
-                MyGdxGame.getPlayer().x + MyGdxGame.getPlayer().width > other.x &&
-                MyGdxGame.getPlayer().z < other.z + other.height &&
-                MyGdxGame.getPlayer().z + MyGdxGame.getPlayer().height > other.z);
+        return (MyGdxGame.getPlayer().x < other.getPosition().x + other.getWidth() &&
+                MyGdxGame.getPlayer().x + MyGdxGame.getPlayer().width > other.getPosition().x &&
+                MyGdxGame.getPlayer().z < other.getPosition().z + other.getHeight() &&
+                MyGdxGame.getPlayer().z + MyGdxGame.getPlayer().height > other.getPosition().z);
     }
 
 

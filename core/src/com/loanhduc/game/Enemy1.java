@@ -15,6 +15,7 @@ public class Enemy1 {
         boolean turnLeft = true;
         boolean turnRight = false;
         AnimationController animationController_normal;
+        AnimationController animationController_runs;
 
         public Robot() {
             path = "robot.g3db";
@@ -34,7 +35,9 @@ public class Enemy1 {
             super.create();
             animationController_normal = new AnimationController(modelInstance);
             animationController_normal.setAnimation("Armature|idle", -1);
-            modelInstance.transform.scl(2);
+            animationController_runs = new AnimationController(modelInstance);
+            animationController_runs.setAnimation("Armature|run", -1);
+
         }
 
         @Override
@@ -45,7 +48,8 @@ public class Enemy1 {
             } else if (turnRight) {
                 this.moveRight();
             }
-            animationController_normal.update(Gdx.graphics.getDeltaTime());
+            animationController_runs.update(Gdx.graphics.getDeltaTime());
+            modelInstance.transform.scl(2);
         }
 
         @Override
