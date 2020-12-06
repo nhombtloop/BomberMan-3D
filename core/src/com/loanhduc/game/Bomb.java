@@ -14,30 +14,19 @@ public class Bomb extends StaticEntity {
     List<AnimationController> animationControllers = new ArrayList<>();
     List<ModelInstance> modelInstances = new ArrayList<>();
     boolean isSet = false;
-
-    public Bomb() {
+    MyGdxGame myGdxGame;
+    public Bomb(MyGdxGame game) {
         path = "bomb.g3db";
+        this.myGdxGame = game;
     }
 
-
-    public void setTimeout(Runnable runnable, int delay){
-        new Thread(() -> {
-            try {
-                Thread.sleep(delay);
-                runnable.run();
-            }
-            catch (Exception e){
-                System.err.println(e);
-            }
-        }).start();
-    }
 
     public void explode(ModelInstance instance, AnimationController controller, int bombInstanceX, int bombInstanceZ) {
         // destroy boom here
         System.out.println("destroy boom");
         SoundEffect.playSoundBoom();
         Map.map[(bombInstanceZ / Map.CELL_WIDTH)][(bombInstanceX / Map.CELL_WIDTH)] = ' ';
-        MyGdxGame.getPlayer().bombSet--;
+        myGdxGame.getPlayer().bombSet--;
         modelInstances.remove(instance);
         animationControllers.remove(controller);
     }

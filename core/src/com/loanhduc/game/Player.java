@@ -4,20 +4,25 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
+import com.loanhduc.game.screen.GameOver;
 import com.loanhduc.game.screen.MyGdxGame;
+import com.loanhduc.game.util.SoundEffect;
+import com.loanhduc.game.util.Utils;
+
 
 public class Player extends MovingEntity {
     AnimationController animationController_run;
     AnimationController animationController_normal;
     AnimationController animationController_dead;
-    public Bomb bomb = new Bomb();
+    private Bomb bomb;
     int bombSet;
     int maxBomb;
     int flameLength;
     boolean isDead;
 
 
-    public Player() {
+    public Player(MyGdxGame myGdxGame) {
+        super(myGdxGame);
         path = "bomberman.g3db";
         isDead = false;
         velocity = 10;
@@ -32,7 +37,7 @@ public class Player extends MovingEntity {
         canWalkThrough.add('s'); // speed item
         canWalkThrough.add('f'); // flame item
         canWalkThrough.add('1'); // enemy1
-
+        bomb = new Bomb(myGdxGame);
     }
 
     @Override
@@ -99,13 +104,17 @@ public class Player extends MovingEntity {
 
             canWalkThrough.add('B');
             // ai đó sửa thành bomb nổ nhé
-            bomb.setTimeout(() -> bomb.explode(bombInstance, bombAnimationController, bombInstanceX, bombInstanceZ), 3000);
+            Utils.setTimeout(() -> bomb.explode(bombInstance, bombAnimationController, bombInstanceX, bombInstanceZ), 3000);
         }
     }
 
     public void eventHandle() {
-        if (MyGdxGame.getPlayer().isDead()) {
+        if (game.getPlayer().isDead()) {
             animationController_dead.update(Gdx.graphics.getDeltaTime());
+            SoundEffect.stopInGameSound();
+            System.out.println("game over");
+            game.getGame().setScreen(new GameOver(game.getGame()));
+            return;
         } else if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             animationController_run.update(Gdx.graphics.getDeltaTime());
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) moveLeft();
@@ -118,8 +127,8 @@ public class Player extends MovingEntity {
     }
 
     public boolean collisionWithEnemy() {
-        for (int i = 0; i < Enemy1.enemy1.size(); i++) {
-            if(collisionWith(Enemy1.enemy1.get(i))) {
+        for (int i = 0; i < game.getEnemy1().getEnemy1().size(); i++) {
+            if(collisionWith(game.getEnemy1().getEnemy1().get(i))) {
                 return true;
             }
         }
@@ -164,8 +173,7 @@ public class Player extends MovingEntity {
 
     public void checkCollision() {
         if (collisionWithEnemy()) {
-            System.out.println("collision");
-            MyGdxGame.getPlayer().setDead(true);
+            game.getPlayer().setDead(true);
         }
         char entity = collisionWithItem();
         getItem(entity);

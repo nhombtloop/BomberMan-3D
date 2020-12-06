@@ -10,6 +10,7 @@ public abstract class MovingEntity extends Entity {
     protected float velocity;
     protected ModelInstance modelInstance;
     protected ArrayList<Character> canWalkThrough = new ArrayList<>();
+    protected MyGdxGame game;
 
     @Override
     public void create() {
@@ -18,7 +19,8 @@ public abstract class MovingEntity extends Entity {
         modelInstance.transform.setToTranslation(x, y, z);
     }
 
-    MovingEntity() {
+    public MovingEntity(MyGdxGame game) {
+        this.game = game;
         canWalkThrough.add(' ');
     }
 
@@ -83,17 +85,17 @@ public abstract class MovingEntity extends Entity {
     public abstract void update();
 
     protected boolean collisionWith(Entity other) {
-        return (MyGdxGame.getPlayer().x < other.x + other.width &&
-                MyGdxGame.getPlayer().x + MyGdxGame.getPlayer().width > other.x &&
-                MyGdxGame.getPlayer().z < other.z + other.height &&
-                MyGdxGame.getPlayer().z + MyGdxGame.getPlayer().height > other.z);
+        return (game.getPlayer().x < other.x + other.width &&
+                game.getPlayer().x + game.getPlayer().width > other.x &&
+                game.getPlayer().z < other.z + other.height &&
+                game.getPlayer().z + game.getPlayer().height > other.z);
     }
 
     protected boolean collisionWith(ObjectInstance other) {
-        return (MyGdxGame.getPlayer().x < other.getPosition().x + other.getWidth() &&
-                MyGdxGame.getPlayer().x + MyGdxGame.getPlayer().width > other.getPosition().x &&
-                MyGdxGame.getPlayer().z < other.getPosition().z + other.getHeight() &&
-                MyGdxGame.getPlayer().z + MyGdxGame.getPlayer().height > other.getPosition().z);
+        return (game.getPlayer().x < other.getPosition().x + other.getWidth() &&
+                game.getPlayer().x + game.getPlayer().width > other.getPosition().x &&
+                game.getPlayer().z < other.getPosition().z + other.getHeight() &&
+                game.getPlayer().z + game.getPlayer().height > other.getPosition().z);
     }
 
 
