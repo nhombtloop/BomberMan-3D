@@ -17,6 +17,13 @@ import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class MyGdxGame extends ScreenAdapter {
+
+	private BoomGame game;
+
+	public BoomGame getGame() {
+		return game;
+	}
+
 	private static PerspectiveCamera cam;
 	private static CameraInputController cameraInputController;
 	private static ModelBatch modelBatch;
@@ -24,7 +31,7 @@ public class MyGdxGame extends ScreenAdapter {
 	protected Stage stage;
 	public static Random generator = new Random();
 
-	private static Player player = new Player();
+	private Player player = new Player(this);
 	private Wall wall = new Wall();
 	private Brick brick = new Brick();
 	private Solid solid = new Solid();
@@ -33,7 +40,11 @@ public class MyGdxGame extends ScreenAdapter {
 	private FlameItem flameItem = new FlameItem();
 	private BombItem bombItem = new BombItem();
 	private ItemBox itemBox = new ItemBox();
+	private Enemy1 enemy1 = new Enemy1(this);
 
+	public MyGdxGame(BoomGame game) {
+		this.game = game;
+	}
 	public void changeView() {
 
 	}
@@ -71,7 +82,7 @@ public class MyGdxGame extends ScreenAdapter {
 		flameItem.create();
 		bombItem.create();
 		itemBox.create();
-		Enemy1.createEnemy1();
+		enemy1.createEnemy1();
 
 
 		renderMap();
@@ -114,7 +125,7 @@ public class MyGdxGame extends ScreenAdapter {
 		flameItem.render();
 		bombItem.render();
 
-		Enemy1.renderEnemy1();
+		enemy1.renderEnemy1();
 
 
 		modelBatch.end();
@@ -183,7 +194,11 @@ public class MyGdxGame extends ScreenAdapter {
 		itemBox.dispose();
 	}
 
-	public static Player getPlayer() {
+	public Enemy1 getEnemy1() {
+		return enemy1;
+	}
+
+	public Player getPlayer() {
 		return player;
 	}
 

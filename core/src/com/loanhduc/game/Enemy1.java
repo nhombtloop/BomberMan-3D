@@ -8,9 +8,17 @@ import com.loanhduc.game.screen.MyGdxGame;
 import java.util.ArrayList;
 
 public class Enemy1 {
-    static ArrayList<Robot> enemy1 = new ArrayList<>();
+    MyGdxGame game;
+    private ArrayList<Robot> enemy1 = new ArrayList<>();
 
-    static class Robot extends MovingEntity {
+    public ArrayList<Robot> getEnemy1() {
+        return enemy1;
+    }
+
+    public Enemy1 (MyGdxGame game) {
+        this.game = game;
+    }
+    public class Robot extends MovingEntity {
         int rdNumber = 0;
         boolean turnLeft = true;
         boolean turnRight = false;
@@ -18,10 +26,11 @@ public class Enemy1 {
         AnimationController animationController_runs;
 
         public Robot() {
+            super(Enemy1.this.game);
             path = "robot.g3db";
             velocity = 1;
-            width = 200;
-            height = 200;
+            width = 150;
+            height = 150;
             canWalkThrough.add('p');
             canWalkThrough.add('1');
             canWalkThrough.add(' ');
@@ -92,13 +101,13 @@ public class Enemy1 {
 
         public void checkCollision() {
             if (collisionWithPlayer()) {
-                MyGdxGame.getPlayer().setDead(true);
+                game.getPlayer().setDead(true);
             }
         }
 
     }
 
-    public static void createEnemy1() {
+    public  void createEnemy1() {
         for (int i = 0; i < Map.ROWS; i++) {
             for (int j = 0; j < Map.COLUMNS; j++) {
                 if (Map.map[i][j] == '1') {
@@ -113,7 +122,7 @@ public class Enemy1 {
         }
     }
 
-    public static void renderEnemy1() {
+    public  void renderEnemy1() {
         for (Robot i : enemy1) {
             i.render();
         }
