@@ -73,34 +73,104 @@ public class Enemy1 {
 
         }
 
+        private void moveRandomLeftRight() {
+            if(canMoveRight() && canMoveLeft()) {
+                if(Utils.generateRandom() == 1) {
+                    turnRight = true;
+                    turnDown = false;
+                } else if(Utils.generateRandom() == 2) {
+                    turnLeft = true;
+                    turnDown = false;
+                } else {
+                    if(turnDown) {
+                        turnUp = true;
+                        turnDown = false;
+                    } else {
+                        turnDown = true;
+                        turnLeft = false;
+                    }
+                }
+            } else if(canMoveRight()) {
+                if(turnDown) {
+                    turnRight = true;
+                    turnDown = false;
+                } else {
+                    turnRight = true;
+                    turnUp = false;
+                }
+            } else if(canMoveLeft()) {
+                if(turnUp) {
+                    turnLeft = true;
+                    turnUp = false;
+                } else {
+                    turnLeft = true;
+                    turnDown = false;
+                }
+            } else {
+                if(turnDown) {
+                    turnUp = true;
+                    turnDown = false;
+                } else {
+                    turnUp = false;
+                    turnDown = true;
+                }
+            }
+        }
+
+        private void moveRandomUpDown() {
+            System.out.println(canMoveUp());
+            if(canMoveUp() && canMoveDown()) {
+                if(Utils.generateRandom() == 1) {
+                    turnUp = true;
+                    turnLeft = false;
+                } else if(Utils.generateRandom() == 2) {
+                    turnDown = true;
+                    turnLeft = false;
+                } else {
+                    if(turnLeft) {
+                        turnRight = true;
+                        turnLeft = false;
+                    } else {
+                        turnRight = false;
+                        turnLeft = true;
+                    }
+                }
+            } else if(canMoveUp()) {
+                if(turnLeft) {
+                    turnUp = true;
+                    turnLeft = false;
+                } else {
+                    turnUp = true;
+                    turnRight = false;
+                }
+            } else if(canMoveDown()) {
+                if(turnLeft) {
+                    turnDown = true;
+                    turnLeft = false;
+                } else {
+                    turnDown = true;
+                    turnRight = false;
+                }
+            } else {
+                if(turnLeft) {
+                    turnLeft = false;
+                    turnRight = true;
+                } else {
+                    turnRight = false;
+                    turnLeft = true;
+                }
+            }
+        }
+
         @Override
         public void moveLeft() {
             modelInstance.transform.setToTranslation(x, y, z);
             modelInstance.transform.rotate(new Vector3(0, 1, 0), -90);
            if (canMoveLeft()) {
                 x -= velocity;
-            }
-           else if(canMoveUp() && canMoveDown()) {
-               if(Utils.generateRandom() == 1) {
-                   turnUp = true;
-                   turnLeft = false;
-               } else if(Utils.generateRandom() == 2) {
-                   turnDown = true;
-                   turnLeft = false;
-               } else {
-                   turnRight = true;
-                   turnLeft = false;
-               }
-           } else if(canMoveUp()) {
-               turnUp = true;
-               turnLeft = false;
-           } else if(canMoveDown()) {
-               turnDown = true;
-               turnLeft = false;
-           } else {
-                turnLeft = false;
-                turnRight = true;
-            }
+            } else {
+               moveRandomUpDown();
+           }
             checkCollision();
         }
         @Override
@@ -109,27 +179,8 @@ public class Enemy1 {
             modelInstance.transform.rotate(new Vector3(0, 1, 0), 0);
             if (canMoveDown()) {
                 z += velocity;
-            } else if(canMoveRight() && canMoveLeft()) {
-                if(Utils.generateRandom() == 1) {
-                    turnRight = true;
-                    turnDown = false;
-                } else if(Utils.generateRandom() == 2) {
-                    turnLeft = true;
-                    turnDown = false;
-                } else {
-                    turnUp = true;
-                    turnDown = false;
-                }
-            }
-            else if(canMoveRight()) {
-                turnRight = true;
-                turnDown = false;
-            } else if(canMoveLeft()) {
-                turnLeft = true;
-                turnDown = false;
-            } else {
-                turnUp = true;
-                turnDown = false;
+            } else  {
+                moveRandomLeftRight();
             }
             checkCollision();
         }
@@ -139,29 +190,8 @@ public class Enemy1 {
             modelInstance.transform.rotate(new Vector3(0, 1, 0), 180);
             if (canMoveUp()) {
                 z -= velocity;
-                System.out.println("move up");
-                System.out.println(canMoveRight());
-            } else if(canMoveRight() && canMoveLeft()) {
-                if(Utils.generateRandom() == 1) {
-                    turnRight = true;
-                    turnDown = false;
-                } else if(Utils.generateRandom() == 2) {
-                    turnLeft = true;
-                    turnDown = false;
-                } else {
-                    turnDown = true;
-                    turnDown = false;
-                }
-            }
-            else if(canMoveRight()) {
-                turnRight = true;
-                turnUp = false;
-            } else if(canMoveLeft()) {
-                turnLeft = true;
-                turnUp = false;
             } else {
-                turnDown = true;
-                turnUp = false;
+                moveRandomLeftRight();
             }
             checkCollision();
         }
@@ -172,28 +202,8 @@ public class Enemy1 {
             modelInstance.transform.rotate(new Vector3(0, 1, 0), 90);
             if (canMoveRight()) {
                     x += velocity;
-            } else if(canMoveUp() && canMoveDown()) {
-                if(Utils.generateRandom() == 1) {
-                    turnUp = true;
-                    turnLeft = false;
-                } else if(Utils.generateRandom() == 2) {
-                    turnDown = true;
-                    turnLeft = false;
-                } else {
-                    turnLeft = true;
-                    turnRight = false;
-                }
-            }
-            else if(canMoveDown()) {
-                turnDown = true;
-                turnRight = false;
-            } else if(canMoveUp()) {
-                turnUp = true;
-                turnRight = false;
-            }
-            else {
-                turnRight = false;
-                turnLeft = true;
+            } else {
+                moveRandomUpDown();
             }
             checkCollision();
         }
