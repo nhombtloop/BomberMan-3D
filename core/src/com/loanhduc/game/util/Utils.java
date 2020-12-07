@@ -21,4 +21,8 @@ public class Utils {
             System.err.println(e);
         }
     }
+
+    public static int generateRandom() {
+        return (int) Math.round(Math.random() * 3) + 1;
+    }
 }

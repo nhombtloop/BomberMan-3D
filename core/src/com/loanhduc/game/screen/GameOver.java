@@ -1,10 +1,9 @@
 package com.loanhduc.game.screen;
 
-import com.badlogic.gdx.Game;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.loanhduc.game.BoomGame;
-import com.loanhduc.game.util.SoundEffect;
+
 
 public class GameOver extends ScreenAdapter {
     private BoomGame game;
@@ -30,7 +29,7 @@ public class GameOver extends ScreenAdapter {
         this.game = game;
     }
     public void show() {
-        int buttonOffset = 20;
+        int buttonOffset = 15;
         backgroundImg = new Texture(Gdx.files.internal("gameover.jpg"));
         sprite = new Sprite(backgroundImg);
         stage = new Stage();
@@ -38,7 +37,7 @@ public class GameOver extends ScreenAdapter {
 
         createBasicSkin();
         TextButton newGameButton = new TextButton("Play again", skin);
-        newGameButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8,Gdx.graphics.getHeight()/2);
+        newGameButton.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth()*12/13,220);
 //        newGameButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8,Gdx.graphics.getHeight()/8 + (newGameButton.getHeight() + buttonOffset));
         newGameButton.addListener(new ClickListener() {
             @Override
@@ -50,7 +49,7 @@ public class GameOver extends ScreenAdapter {
         stage.addActor(newGameButton);
         TextButton exitButton = new TextButton("Exit", skin);
 //        exitButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8,Gdx.graphics.getHeight()/2);
-        exitButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8,Gdx.graphics.getHeight()/8 + (newGameButton.getHeight() + buttonOffset));
+        exitButton.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth()/3,220);
 
         exitButton.addListener(new ClickListener() {
             @Override
