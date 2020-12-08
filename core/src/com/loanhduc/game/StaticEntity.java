@@ -1,9 +1,11 @@
 package com.loanhduc.game;
 
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.math.Vector3;
 import com.loanhduc.game.screen.MyGdxGame;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class StaticEntity extends Entity{
@@ -24,4 +26,13 @@ public abstract class StaticEntity extends Entity{
         }
     }
 
+    public void checkBurned(char[][] map, int cell) {
+        for(int i =0; i<rallyEntity.size(); i++) {
+            Vector3 pos = rallyEntity.get(i).getPosition();
+            if(map[(int) ((pos.z +100)/cell)][(int) ((pos.x+100)/cell)]=='F') {
+                rallyEntity.remove(i);
+                i--;
+            }
+        }
+    }
 }

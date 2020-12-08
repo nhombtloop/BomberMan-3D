@@ -31,7 +31,7 @@ public class MyGdxGame extends ScreenAdapter {
 	private Player player = new Player(this);
 	public Explode explode = new Explode(this);
 	private Wall wall = new Wall();
-	private Brick brick = new Brick();
+	public Brick brick = new Brick();
 	private Solid solid = new Solid();
 	private Portal portal = new Portal();
 	private SpeedItem speedItem = new SpeedItem();
@@ -103,7 +103,6 @@ public class MyGdxGame extends ScreenAdapter {
 	@Override
 	public void render(float delta) {
 		cameraInputController.update();
-
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(0.2f,1f,1f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
@@ -125,6 +124,12 @@ public class MyGdxGame extends ScreenAdapter {
 		enemy.renderEnemy();
 		explode.renderExplode();
 		modelBatch.end();
+	}
+
+	public void checkBurned() {
+		char[][] map = Map.map;
+		int cell = Map.CELL_WIDTH;
+		brick.checkBurned(map, cell);
 	}
 
 	private void cameraFollowPlayer() {

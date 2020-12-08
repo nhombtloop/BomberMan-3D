@@ -107,8 +107,9 @@ public class Player extends MovingEntity {
             Map.map[(bombInstanceZ / Map.CELL_WIDTH)][(bombInstanceX / Map.CELL_WIDTH)] = 'B';
             bombInstance.transform.setToTranslation(bombInstanceX, 0, bombInstanceZ);
             bomb.isSet = true;
-            game.explode.createExplode((int)x, (int)y, (int)z, flameLength);
+            game.explode.createExplode(bombInstanceX, bombInstanceZ, flameLength);
             canWalkThrough.add('B');
+
             Utils.setTimeout(() -> bomb.explode(bombInstance, bombAnimationController, bombInstanceX, bombInstanceZ), 3000);
         }
     }
