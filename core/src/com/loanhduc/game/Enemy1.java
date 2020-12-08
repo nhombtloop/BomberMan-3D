@@ -65,7 +65,6 @@ public class Enemy1 {
                 moveDown();
             }
             animationController_runs.update(Gdx.graphics.getDeltaTime());
-            modelInstance.transform.scl(2);
         }
 
         @Override

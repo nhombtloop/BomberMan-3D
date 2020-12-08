@@ -198,5 +198,7 @@ public class MyGdxGame extends ScreenAdapter {
 		return player;
 	}
 
-
+	public Portal getPortal() {
+		return portal;
+	}
 }
