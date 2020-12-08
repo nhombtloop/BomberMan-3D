@@ -16,9 +16,10 @@ public class Enemy1 {
         return enemy1;
     }
 
-    public Enemy1 (MyGdxGame game) {
+    public Enemy1(MyGdxGame game) {
         this.game = game;
     }
+
     public class Robot extends MovingEntity {
         int rdNumber = 0;
         private boolean turnLeft = true;
@@ -49,7 +50,6 @@ public class Enemy1 {
             animationController_normal.setAnimation("Armature|idle", -1);
             animationController_runs = new AnimationController(modelInstance);
             animationController_runs.setAnimation("Armature|run", -1);
-
         }
 
         @Override
@@ -59,9 +59,9 @@ public class Enemy1 {
                 this.moveLeft();
             } else if (turnRight) {
                 this.moveRight();
-            } else if(turnUp) {
+            } else if (turnUp) {
                 moveUp();
-            } else if(turnDown) {
+            } else if (turnDown) {
                 moveDown();
             }
             animationController_runs.update(Gdx.graphics.getDeltaTime());
@@ -73,95 +73,126 @@ public class Enemy1 {
 
         }
 
+        private void moveRandomLeftRight() {
+            if (canMoveRight() && canMoveLeft()) {
+                if (Utils.generateRandom() == 1) {
+                    turnRight = true;
+                    turnDown = false;
+                } else if (Utils.generateRandom() == 2) {
+                    turnLeft = true;
+                    turnDown = false;
+                } else {
+                    if (turnDown) {
+                        turnUp = true;
+                        turnDown = false;
+                    } else {
+                        turnDown = true;
+                        turnLeft = false;
+                    }
+                }
+            } else if (canMoveRight()) {
+                if (turnDown) {
+                    turnRight = true;
+                    turnDown = false;
+                } else {
+                    turnRight = true;
+                    turnUp = false;
+                }
+            } else if (canMoveLeft()) {
+                if (turnUp) {
+                    turnLeft = true;
+                    turnUp = false;
+                } else {
+                    turnLeft = true;
+                    turnDown = false;
+                }
+            } else {
+                if (turnDown) {
+                    turnUp = true;
+                    turnDown = false;
+                } else {
+                    turnUp = false;
+                    turnDown = true;
+                }
+            }
+        }
+
+        private void moveRandomUpDown() {
+            if (canMoveUp() && canMoveDown()) {
+                if (Utils.generateRandom() == 1) {
+                    turnUp = true;
+                    turnLeft = false;
+                } else if (Utils.generateRandom() == 2) {
+                    turnDown = true;
+                    turnLeft = false;
+                } else {
+                    if (turnLeft) {
+                        turnRight = true;
+                        turnLeft = false;
+                    } else {
+                        turnRight = false;
+                        turnLeft = true;
+                    }
+                }
+            } else if (canMoveUp()) {
+                if (turnLeft) {
+                    turnUp = true;
+                    turnLeft = false;
+                } else {
+                    turnUp = true;
+                    turnRight = false;
+                }
+            } else if (canMoveDown()) {
+                if (turnLeft) {
+                    turnDown = true;
+                    turnLeft = false;
+                } else {
+                    turnDown = true;
+                    turnRight = false;
+                }
+            } else {
+                if (turnLeft) {
+                    turnLeft = false;
+                    turnRight = true;
+                } else {
+                    turnRight = false;
+                    turnLeft = true;
+                }
+            }
+        }
+
         @Override
         public void moveLeft() {
             modelInstance.transform.setToTranslation(x, y, z);
             modelInstance.transform.rotate(new Vector3(0, 1, 0), -90);
-           if (canMoveLeft()) {
+            if (canMoveLeft()) {
                 x -= velocity;
-            }
-           else if(canMoveUp() && canMoveDown()) {
-               if(Utils.generateRandom() == 1) {
-                   turnUp = true;
-                   turnLeft = false;
-               } else if(Utils.generateRandom() == 2) {
-                   turnDown = true;
-                   turnLeft = false;
-               } else {
-                   turnRight = true;
-                   turnLeft = false;
-               }
-           } else if(canMoveUp()) {
-               turnUp = true;
-               turnLeft = false;
-           } else if(canMoveDown()) {
-               turnDown = true;
-               turnLeft = false;
-           } else {
-                turnLeft = false;
-                turnRight = true;
+            } else {
+                moveRandomUpDown();
             }
             checkCollision();
         }
+
         @Override
         public void moveDown() {
             modelInstance.transform.setToTranslation(x, y, z);
             modelInstance.transform.rotate(new Vector3(0, 1, 0), 0);
             if (canMoveDown()) {
                 z += velocity;
-            } else if(canMoveRight() && canMoveLeft()) {
-                if(Utils.generateRandom() == 1) {
-                    turnRight = true;
-                    turnDown = false;
-                } else if(Utils.generateRandom() == 2) {
-                    turnLeft = true;
-                    turnDown = false;
-                } else {
-                    turnUp = true;
-                    turnDown = false;
-                }
-            }
-            else if(canMoveRight()) {
-                turnRight = true;
-                turnDown = false;
-            } else if(canMoveLeft()) {
-                turnLeft = true;
-                turnDown = false;
             } else {
-                turnUp = true;
-                turnDown = false;
+                moveRandomLeftRight();
             }
             checkCollision();
         }
+
         @Override
         public void moveUp() {
             modelInstance.transform.setToTranslation(x, y, z);
             modelInstance.transform.rotate(new Vector3(0, 1, 0), 180);
             if (canMoveUp()) {
                 z -= velocity;
-                System.out.println("move up");
-                System.out.println(canMoveRight());
-            } else if(canMoveRight() && canMoveLeft()) {
-                if(Utils.generateRandom() == 1) {
-                    turnRight = true;
-                    turnDown = false;
-                } else if(Utils.generateRandom() == 2) {
-                    turnLeft = true;
-                    turnDown = false;
-                } else {
-                    turnDown = true;
-                    turnDown = false;
-                }
-            }
-            else if(canMoveRight()) {
-                turnRight = true;
-                turnUp = false;
-            } else if(canMoveLeft()) {
-                turnLeft = true;
-                turnUp = false;
             } else {
-                turnDown = true;
-                turnUp = false;
+                moveRandomLeftRight();
             }
             checkCollision();
         }
@@ -171,38 +202,15 @@ public class Enemy1 {
             modelInstance.transform.setToTranslation(x, y, z);
             modelInstance.transform.rotate(new Vector3(0, 1, 0), 90);
             if (canMoveRight()) {
-                    x += velocity;
-            } else if(canMoveUp() && canMoveDown()) {
-                if(Utils.generateRandom() == 1) {
-                    turnUp = true;
-                    turnLeft = false;
-                } else if(Utils.generateRandom() == 2) {
-                    turnDown = true;
-                    turnLeft = false;
-                } else {
-                    turnLeft = true;
-                    turnRight = false;
-                }
-            }
-            else if(canMoveDown()) {
-                turnDown = true;
-                turnRight = false;
-            } else if(canMoveUp()) {
-                turnUp = true;
-                turnRight = false;
-            }
-            else {
-                turnRight = false;
-                turnLeft = true;
+                x += velocity;
+            } else {
+                moveRandomUpDown();
             }
             checkCollision();
         }
 
         private boolean collisionWithPlayer() {
-            if(collisionWith(this)) {
-                return true;
-            }
-            return false;
+            return collisionWith(this);
         }
 
         public void checkCollision() {
@@ -213,7 +221,7 @@ public class Enemy1 {
 
     }
 
-    public  void createEnemy1() {
+    public void createEnemy1() {
         for (int i = 0; i < Map.ROWS; i++) {
             for (int j = 0; j < Map.COLUMNS; j++) {
                 if (Map.map[i][j] == '1') {
@@ -228,10 +236,9 @@ public class Enemy1 {
         }
     }
 
-    public  void renderEnemy1() {
+    public void renderEnemy1() {
         for (Robot i : enemy1) {
             i.render();
         }
     }
-
 }
