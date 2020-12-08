@@ -19,12 +19,14 @@ public class Player extends MovingEntity {
     int maxBomb;
     int flameLength;
     boolean isDead;
+    boolean isTeleport;
 
 
     public Player(MyGdxGame myGdxGame) {
         super(myGdxGame);
         path = "bomberman.g3db";
         isDead = false;
+        isTeleport = false;
         velocity = 10;
         bombSet = 0;
         maxBomb = 2;
@@ -146,6 +148,15 @@ public class Player extends MovingEntity {
         return ' ';
     }
 
+    public ObjectInstance collisionWithPortal() {
+        for (ObjectInstance objectInstance : game.getPortal().rallyEntity) {
+            if (collisionWith(objectInstance)) {
+                return objectInstance;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void moveUp() {
         super.moveUp();
@@ -176,6 +187,26 @@ public class Player extends MovingEntity {
         }
         char entity = collisionWithItem();
         getItem(entity);
+        ObjectInstance portal = collisionWithPortal();
+        if (portal != null && !isTeleport) {
+            teleport(portal);
+        }
+        if (portal == null) {
+            isTeleport = false;
+        }
+    }
+
+    private void teleport(ObjectInstance portal) {
+        int indexOfPortal = game.getPortal().rallyEntity.indexOf(portal);
+        ObjectInstance nextPortal;
+        if (indexOfPortal != game.getPortal().rallyEntity.size() - 1) {
+            nextPortal = game.getPortal().rallyEntity.get(indexOfPortal + 1);
+        } else {
+            nextPortal = game.getPortal().rallyEntity.get(0);
+        }
+        this.x = nextPortal.getPosition().x;
+        this.z = nextPortal.getPosition().z;
+        isTeleport = true;
     }
 
     private void getItem(char item) {
