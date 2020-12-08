@@ -8,15 +8,15 @@ import com.loanhduc.game.util.Utils;
 
 import java.util.ArrayList;
 
-public class Enemy1 {
+public class Enemy {
     MyGdxGame game;
-    private ArrayList<Robot> enemy1 = new ArrayList<>();
+    private ArrayList<MovingEntity> enemies = new ArrayList<>();
 
-    public ArrayList<Robot> getEnemy1() {
-        return enemy1;
+    public ArrayList<MovingEntity> getEnemies() {
+        return enemies;
     }
 
-    public Enemy1(MyGdxGame game) {
+    public Enemy(MyGdxGame game) {
         this.game = game;
     }
 
@@ -28,17 +28,19 @@ public class Enemy1 {
         AnimationController animationController_runs;
 
         public Robot() {
-            super(Enemy1.this.game);
-            path = "robot.g3db";
+            super(Enemy.this.game);
+            path = "robot/robot.g3db";
             velocity = 3;
             width = 180;
             height = 180;
             canWalkThrough.add('p');
-            canWalkThrough.add('1');
             canWalkThrough.add(' ');
             canWalkThrough.add('b'); // bomb item
             canWalkThrough.add('s'); // speed item
             canWalkThrough.add('f'); // flame item
+            canWalkThrough.add('x');
+            canWalkThrough.add('1');
+            canWalkThrough.add('2');
         }
 
         @Override
@@ -165,7 +167,6 @@ public class Enemy1 {
             } else {
                 moveRandomUpDown();
             }
-            checkCollision();
         }
 
         @Override
@@ -177,7 +178,6 @@ public class Enemy1 {
             } else {
                 moveRandomLeftRight();
             }
-            checkCollision();
         }
 
         @Override
@@ -189,7 +189,6 @@ public class Enemy1 {
             } else {
                 moveRandomLeftRight();
             }
-            checkCollision();
         }
 
         @Override
@@ -201,22 +200,78 @@ public class Enemy1 {
             } else {
                 moveRandomUpDown();
             }
-            checkCollision();
+        }
+    }
+
+    public class Monster extends MovingEntity {
+        AnimationController animationController_runs;
+
+        public Monster() {
+            super(Enemy.this.game);
+            path = "monster/monster.g3db";
+            velocity = 5;
+            width = 150;
+            height = 150;
+            canWalkThrough.add('p');
+            canWalkThrough.add(' ');
+            canWalkThrough.add('b'); // bomb item
+            canWalkThrough.add('s'); // speed item
+            canWalkThrough.add('f'); // flame item
+            canWalkThrough.add('x');
+            canWalkThrough.add('1');
+            canWalkThrough.add('2');
         }
 
-        private boolean collisionWithPlayer() {
-            return collisionWith(this);
+        @Override
+        public void create() {
+            super.create();
+            animationController_runs = new AnimationController(modelInstance);
+            animationController_runs.setAnimation("Armature|run", -1);
         }
 
-        public void checkCollision() {
-            if (collisionWithPlayer()) {
-                game.getPlayer().setDead(true);
+        @Override
+        public void render() {
+            super.render();
+            chasing();
+            animationController_runs.update(Gdx.graphics.getDeltaTime());
+        }
+
+        private void chasing() {
+            float playerX = game.getPlayer().x;
+            float playerZ = game.getPlayer().z;
+            float distanceX = Math.abs(playerX - this.x);
+            float distanceZ = Math.abs(playerZ - this.z);
+            if (this.x < playerX && this.z >= playerZ) {
+                if (distanceX <= distanceZ && canMoveUp())
+                    moveUp();
+                else if (distanceX > distanceZ && canMoveRight())
+                    moveRight();
+            } else if (this.x >= playerX && this.z > playerZ) {
+                if (distanceX <= distanceZ && canMoveUp())
+                    moveUp();
+                else if (distanceX > distanceZ && canMoveLeft())
+                    moveLeft();
+            } else if (this.x > playerX && this.z <= playerZ) {
+                if (distanceX <= distanceZ && canMoveDown())
+                    moveDown();
+                else if (distanceX > distanceZ && canMoveLeft())
+                    moveLeft();
+            } else if (this.x <= playerX && this.z < playerZ) {
+                if (distanceX <= distanceZ && canMoveDown())
+                    moveDown();
+                else if (distanceX > distanceZ && canMoveRight())
+                    moveRight();
             }
         }
 
+        @Override
+        public void update() {
+
+        }
     }
 
-    public void createEnemy1() {
+
+    public void createEnemy() {
         for (int i = 0; i < Map.ROWS; i++) {
             for (int j = 0; j < Map.COLUMNS; j++) {
                 if (Map.map[i][j] == '1') {
@@ -224,16 +279,24 @@ public class Enemy1 {
                     newRb.x = j * Map.CELL_WIDTH;
                     newRb.z = i * Map.CELL_WIDTH;
                     newRb.create();
-                    enemy1.add(newRb);
+                    enemies.add(newRb);
+                    Map.map[i][j] = ' ';
+                }
+                if (Map.map[i][j] == '2') {
+                    Monster newMonster = new Monster();
+                    newMonster.x = j * Map.CELL_WIDTH;
+                    newMonster.z = i * Map.CELL_WIDTH;
+                    newMonster.create();
+                    enemies.add(newMonster);
                     Map.map[i][j] = ' ';
                 }
             }
         }
     }
 
-    public void renderEnemy1() {
-        for (Robot i : enemy1) {
-            i.render();
+    public void renderEnemy() {
+        for (MovingEntity enemy : enemies) {
+            enemy.render();
         }
     }
 }

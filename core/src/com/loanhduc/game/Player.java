@@ -88,6 +88,9 @@ public class Player extends MovingEntity {
     @Override
 
     public void update() {
+        if (collisionWithEnemy()) {
+            game.getPlayer().setDead(true);
+        }
         eventHandle();
     }
 
@@ -128,8 +131,8 @@ public class Player extends MovingEntity {
     }
 
     public boolean collisionWithEnemy() {
-        for (int i = 0; i < game.getEnemy1().getEnemy1().size(); i++) {
-            if(collisionWith(game.getEnemy1().getEnemy1().get(i))) {
+        for (MovingEntity enemy : game.getEnemy().getEnemies()) {
+            if(collisionWith(enemy)) {
                 return true;
             }
         }
@@ -182,9 +185,6 @@ public class Player extends MovingEntity {
     }
 
     public void checkCollision() {
-        if (collisionWithEnemy()) {
-            game.getPlayer().setDead(true);
-        }
         char entity = collisionWithItem();
         getItem(entity);
         ObjectInstance portal = collisionWithPortal();
