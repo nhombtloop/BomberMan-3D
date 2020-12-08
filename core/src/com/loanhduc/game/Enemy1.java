@@ -21,20 +21,18 @@ public class Enemy1 {
     }
 
     public class Robot extends MovingEntity {
-        int rdNumber = 0;
         private boolean turnLeft = true;
         private boolean turnRight = false;
         private boolean turnUp = false;
         private boolean turnDown = false;
-        AnimationController animationController_normal;
         AnimationController animationController_runs;
 
         public Robot() {
             super(Enemy1.this.game);
             path = "robot.g3db";
             velocity = 3;
-            width = 150;
-            height = 150;
+            width = 180;
+            height = 180;
             canWalkThrough.add('p');
             canWalkThrough.add('1');
             canWalkThrough.add(' ');
@@ -46,8 +44,6 @@ public class Enemy1 {
         @Override
         public void create() {
             super.create();
-            animationController_normal = new AnimationController(modelInstance);
-            animationController_normal.setAnimation("Armature|idle", -1);
             animationController_runs = new AnimationController(modelInstance);
             animationController_runs.setAnimation("Armature|run", -1);
         }

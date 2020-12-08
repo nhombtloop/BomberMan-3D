@@ -59,22 +59,22 @@ public abstract class MovingEntity extends Entity {
 
     boolean canMoveUp() {
         return canWalkThrough.contains(Map.map[(int) ((z - velocity) / 200)][(int) (x / 200)])
-                && canWalkThrough.contains(Map.map[(int) ((z - velocity) / 200)][(int) ((x + 150) / 200)]);
+                && canWalkThrough.contains(Map.map[(int) ((z - velocity) / 200)][(int) ((x + width) / 200)]);
     }
 
     boolean canMoveDown() {
-        return canWalkThrough.contains(Map.map[(int) ((z + 150 + velocity) / 200)][(int) (x / 200)])
-                && canWalkThrough.contains(Map.map[(int) ((z + 150 + velocity) / 200)][(int) ((x + 150) / 200)]);
+        return canWalkThrough.contains(Map.map[(int) ((z + height + velocity) / 200)][(int) (x / 200)])
+                && canWalkThrough.contains(Map.map[(int) ((z + height + velocity) / 200)][(int) ((x + width) / 200)]);
     }
 
     boolean canMoveLeft() {
         return canWalkThrough.contains(Map.map[(int) (z / 200)][(int) ((x - velocity) / 200)])
-                && canWalkThrough.contains(Map.map[(int) ((z + 150) / 200)][(int) ((x - velocity) / 200)]);
+                && canWalkThrough.contains(Map.map[(int) ((z + height) / 200)][(int) ((x - velocity) / 200)]);
     }
 
     boolean canMoveRight() {
-        return canWalkThrough.contains(Map.map[(int) (z / 200)][(int) ((x + 150 + velocity) / 200)])
-                && canWalkThrough.contains(Map.map[(int) ((z + 150) / 200)][(int) ((x + 150 + velocity) / 200)]);
+        return canWalkThrough.contains(Map.map[(int) (z / 200)][(int) ((x + width + velocity) / 200)])
+                && canWalkThrough.contains(Map.map[(int) ((z + height) / 200)][(int) ((x + width + velocity) / 200)]);
     }
 
     @Override
