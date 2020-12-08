@@ -6,5 +6,8 @@ public class SpeedItem extends Items {
         path = "speedItem.g3db";
     }
 
-
+    @Override
+    public void spawn(float x, float y, float z) {
+        super.spawn(x, y, z);
+    }
 }

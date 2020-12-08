@@ -18,17 +18,10 @@ public abstract class StaticEntity extends Entity{
         rallyEntity.add(objectInstance);
     }
 
-    public void remove(ObjectInstance objectInstance) {
-        rallyEntity.remove(objectInstance);
-    }
-
     public void render() {
         for (ObjectInstance objectInstance : rallyEntity) {
             MyGdxGame.getModelBatch().render(objectInstance.getModelInstance(), MyGdxGame.getEnvironment());
         }
     }
 
-    public List<ObjectInstance> getRallyEntity() {
-        return rallyEntity;
-    }
 }

@@ -84,6 +84,7 @@ public class Player extends MovingEntity {
     }
 
     @Override
+
     public void update() {
         eventHandle();
     }
@@ -101,9 +102,8 @@ public class Player extends MovingEntity {
             Map.map[(bombInstanceZ / Map.CELL_WIDTH)][(bombInstanceX / Map.CELL_WIDTH)] = 'B';
             bombInstance.transform.setToTranslation(bombInstanceX, 0, bombInstanceZ);
             bomb.isSet = true;
-
+            game.explode.createExplode((int)x, (int)y, (int)z, flameLength);
             canWalkThrough.add('B');
-            // ai đó sửa thành bomb nổ nhé
             Utils.setTimeout(() -> bomb.explode(bombInstance, bombAnimationController, bombInstanceX, bombInstanceZ), 3000);
         }
     }
@@ -114,7 +114,6 @@ public class Player extends MovingEntity {
             SoundEffect.stopInGameSound();
             System.out.println("game over");
             game.getGame().setScreen(new GameOver(game.getGame()));
-            return;
         } else if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             animationController_run.update(Gdx.graphics.getDeltaTime());
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) moveLeft();

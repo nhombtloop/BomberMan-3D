@@ -15,6 +15,7 @@ public class Bomb extends StaticEntity {
     List<ModelInstance> modelInstances = new ArrayList<>();
     boolean isSet = false;
     MyGdxGame myGdxGame;
+
     public Bomb(MyGdxGame game) {
         path = "bomb.g3db";
         this.myGdxGame = game;
@@ -22,8 +23,6 @@ public class Bomb extends StaticEntity {
 
 
     public void explode(ModelInstance instance, AnimationController controller, int bombInstanceX, int bombInstanceZ) {
-        // destroy boom here
-        System.out.println("destroy boom");
         SoundEffect.playSoundBoom();
         Map.map[(bombInstanceZ / Map.CELL_WIDTH)][(bombInstanceX / Map.CELL_WIDTH)] = ' ';
         myGdxGame.getPlayer().bombSet--;
@@ -37,6 +36,5 @@ public class Bomb extends StaticEntity {
             MyGdxGame.getModelBatch().render(modelInstances.get(i), MyGdxGame.getEnvironment());
             animationControllers.get(i).update(Gdx.graphics.getDeltaTime());
         }
-
     }
 }

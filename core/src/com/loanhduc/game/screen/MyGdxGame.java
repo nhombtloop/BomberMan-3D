@@ -17,13 +17,10 @@ import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class MyGdxGame extends ScreenAdapter {
-
 	private BoomGame game;
-
 	public BoomGame getGame() {
 		return game;
 	}
-
 	private static PerspectiveCamera cam;
 	private static CameraInputController cameraInputController;
 	private static ModelBatch modelBatch;
@@ -32,6 +29,7 @@ public class MyGdxGame extends ScreenAdapter {
 	public static Random generator = new Random();
 
 	private Player player = new Player(this);
+	public Explode explode = new Explode(this);
 	private Wall wall = new Wall();
 	private Brick brick = new Brick();
 	private Solid solid = new Solid();
@@ -84,7 +82,6 @@ public class MyGdxGame extends ScreenAdapter {
 		itemBox.create();
 		enemy1.createEnemy1();
 
-
 		renderMap();
 		SoundEffect.playSoundInGame();
 	}
@@ -126,8 +123,7 @@ public class MyGdxGame extends ScreenAdapter {
 		bombItem.render();
 
 		enemy1.renderEnemy1();
-
-
+		explode.renderExplode();
 		modelBatch.end();
 	}
 
