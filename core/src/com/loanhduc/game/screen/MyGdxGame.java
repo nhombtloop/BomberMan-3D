@@ -38,7 +38,7 @@ public class MyGdxGame extends ScreenAdapter {
 	private FlameItem flameItem = new FlameItem();
 	private BombItem bombItem = new BombItem();
 	private ItemBox itemBox = new ItemBox();
-	private Enemy1 enemy1 = new Enemy1(this);
+	private Enemy enemy = new Enemy(this);
 
 	public MyGdxGame(BoomGame game) {
 		this.game = game;
@@ -80,7 +80,7 @@ public class MyGdxGame extends ScreenAdapter {
 		flameItem.create();
 		bombItem.create();
 		itemBox.create();
-		enemy1.createEnemy1();
+		enemy.createEnemy();
 
 		renderMap();
 		SoundEffect.playSoundInGame();
@@ -122,7 +122,7 @@ public class MyGdxGame extends ScreenAdapter {
 		flameItem.render();
 		bombItem.render();
 
-		enemy1.renderEnemy1();
+		enemy.renderEnemy();
 		explode.renderExplode();
 		modelBatch.end();
 	}
@@ -190,8 +190,8 @@ public class MyGdxGame extends ScreenAdapter {
 		itemBox.dispose();
 	}
 
-	public Enemy1 getEnemy1() {
-		return enemy1;
+	public Enemy getEnemy() {
+		return enemy;
 	}
 
 	public Player getPlayer() {
