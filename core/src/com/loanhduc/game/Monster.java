@@ -6,7 +6,6 @@ import com.loanhduc.game.screen.MyGdxGame;
 
 public class Monster extends Enemy {
     AnimationController animationController_runs;
-
     public Monster(MyGdxGame game) {
         super(game);
         path = "monster/monster.g3db";
@@ -32,6 +31,11 @@ public class Monster extends Enemy {
 
     @Override
     public void render() {
+        if(checkCollisionWithFire()) {
+            game.getEnemy().getEnemies().remove(this);
+            System.out.println(game.getEnemy().getEnemies().size());
+            return;
+        }
         super.render();
         chasing();
         animationController_runs.update(Gdx.graphics.getDeltaTime());

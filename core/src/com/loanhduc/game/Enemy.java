@@ -5,7 +5,7 @@ import com.loanhduc.game.screen.MyGdxGame;
 import java.util.ArrayList;
 
 public class Enemy extends MovingEntity {
-    private static ArrayList<Enemy> enemies = new ArrayList<>();
+    private ArrayList<Enemy> enemies = new ArrayList<>();
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;
@@ -15,15 +15,9 @@ public class Enemy extends MovingEntity {
         super(game);
     }
 
-    public boolean collisionWithFire() {
-        for (Explode.Fire fire : game.getExplode().getFire()) {
-            if(this.collisionWith(fire)) {
-                return true;
-            }
-        }
-        return false;
+    protected boolean checkCollisionWithFire() {
+        return collisionWithFire();
     }
-
 
     public void createEnemy() {
         for (int i = 0; i < Map.ROWS; i++) {
@@ -54,8 +48,8 @@ public class Enemy extends MovingEntity {
     }
 
     public void renderEnemy() {
-        for (Enemy enemy : enemies) {
-            enemy.render();
+        for (int i=0; i < enemies.size(); i++) {
+            enemies.get(i).render();
         }
     }
 }
