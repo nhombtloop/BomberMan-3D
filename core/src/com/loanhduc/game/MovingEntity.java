@@ -10,7 +10,8 @@ public abstract class MovingEntity extends Entity {
     protected float velocity;
     protected ModelInstance modelInstance;
     protected ArrayList<Character> canWalkThrough = new ArrayList<>();
-    protected MyGdxGame game;
+    protected
+    MyGdxGame game;
 
     @Override
     public void create() {

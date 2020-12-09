@@ -16,7 +16,7 @@ public class Explode {
         this.game = game;
     }
 
-    public class Fire extends StaticEntity {
+    public static class Fire extends StaticEntity {
         List<AnimationController> rallyAnimation = new ArrayList<>();
         boolean isExplode = false;
 
@@ -24,18 +24,48 @@ public class Explode {
             path = "fire.g3db";
         }
 
-        public void spawn(float x, float y, float z, int size) {
-            for (int i = -size; i <= size; i++) {
+        public void spawn(int x, int z, int size) {
+            ModelInstance modelInstance = new ModelInstance(model);
+            modelInstance.transform.setToTranslation(x, 0, z);
+            ObjectInstance objectInstance = new ObjectInstance(modelInstance);
+            rallyEntity.add(objectInstance);
+            AnimationController ani = new AnimationController(modelInstance);
+            ani.setAnimation("Armature|idle", -1);
+            rallyAnimation.add(ani);
+            for (int i = 1; i <= size; i++) {
+                if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
                 ModelInstance modelInstance1 = new ModelInstance(model);
-                modelInstance1.transform.setToTranslation(x + i * 200, y, z);
+                modelInstance1.transform.setToTranslation(x + i * 200, 0, z);
                 ObjectInstance objectInstance1 = new ObjectInstance(modelInstance1);
                 rallyEntity.add(objectInstance1);
                 AnimationController ani1 = new AnimationController(modelInstance1);
                 ani1.setAnimation("Armature|idle", -1);
                 rallyAnimation.add(ani1);
-
+            }
+            for (int i = 1; i <= size; i++) {
+                if (Map.map[(z + i * 200) / Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
                 ModelInstance modelInstance2 = new ModelInstance(model);
-                modelInstance2.transform.setToTranslation(x, y, z + i * 200);
+                modelInstance2.transform.setToTranslation(x, 0, z + i * 200);
+                ObjectInstance objectInstance2 = new ObjectInstance(modelInstance2);
+                rallyEntity.add(objectInstance2);
+                AnimationController ani2 = new AnimationController(modelInstance2);
+                ani2.setAnimation("Armature|idle", -1);
+                rallyAnimation.add(ani2);
+            }
+            for (int i = -1; i >= -size; i--) {
+                if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
+                ModelInstance modelInstance1 = new ModelInstance(model);
+                modelInstance1.transform.setToTranslation(x + i * 200, 0, z);
+                ObjectInstance objectInstance1 = new ObjectInstance(modelInstance1);
+                rallyEntity.add(objectInstance1);
+                AnimationController ani1 = new AnimationController(modelInstance1);
+                ani1.setAnimation("Armature|idle", -1);
+                rallyAnimation.add(ani1);
+            }
+            for (int i = -1; i >= -size; i--) {
+                if (Map.map[(z + i * 200) / Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
+                ModelInstance modelInstance2 = new ModelInstance(model);
+                modelInstance2.transform.setToTranslation(x, 0, z + i * 200);
                 ObjectInstance objectInstance2 = new ObjectInstance(modelInstance2);
                 rallyEntity.add(objectInstance2);
                 AnimationController ani2 = new AnimationController(modelInstance2);
@@ -52,23 +82,62 @@ public class Explode {
             }
         }
 
-        public void active() {
+        public void active(int x, int z, int size, MyGdxGame game) {
             isExplode = true;
+            Map.map[z / Map.CELL_WIDTH][x / Map.CELL_WIDTH] = 'F';
+            for (int i = 0; i <= size; i++) {
+                if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
+                Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = 'F';
+            }
+            for (int i = 0; i <= size; i++) {
+                if (Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
+                Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = 'F';
+            }
+            for (int i = 0; i >= -size; i--) {
+                if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
+                Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = 'F';
+            }
+            for (int i = 0; i >= -size; i--) {
+                if (Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
+                Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = 'F';
+            }
+            game.checkBurned();
         }
     }
 
-    public void createExplode(int x, int y, int z, int size) {
+    public void doneExplode(Fire doneFire, int x, int z, int size) {
+        Map.map[z / Map.CELL_WIDTH][x / Map.CELL_WIDTH] = ' ';
+        for (int i = 0; i <= size; i++) {
+            if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
+            Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = ' ';
+        }
+        for (int i = 0; i <= size; i++) {
+            if (Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
+            Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = ' ';
+        }
+        for (int i = 0; i >= -size; i--) {
+            if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
+            Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = ' ';
+        }
+        for (int i = 0; i >= -size; i--) {
+            if (Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
+            Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = ' ';
+        }
+        fire.remove(doneFire);
+    }
+
+    public void createExplode(int x, int z, int size) {
         Fire newFire = new Fire();
         newFire.create();
-        newFire.spawn(x, y, z, size);
+        newFire.spawn(x, z, size);
         fire.add(newFire);
-        Utils.setTimeout(newFire::active, 3000);
-        Utils.setTimeout(() -> fire.remove(newFire), 4000);
+        Utils.setTimeout(() -> newFire.active(x, z, size, game), 3000);
+        Utils.setTimeout(() -> doneExplode(newFire, x, z, size), 3500);
     }
 
     public void renderExplode() {
         for (Explode.Fire i : fire) {
-            if(i.isExplode) i.render();
+            if (i.isExplode) i.render();
         }
     }
 }
