@@ -5,10 +5,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.loanhduc.game.screen.MyGdxGame;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public abstract class StaticEntity extends Entity{
+public abstract class StaticEntity extends Entity {
     List<ObjectInstance> rallyEntity = new ArrayList<>();
 
     public void spawn(float x, float y, float z) {

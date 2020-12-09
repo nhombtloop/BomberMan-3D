@@ -109,6 +109,7 @@ public class MyGdxGame extends ScreenAdapter {
 		cameraFollowPlayer();
 		cam.update();
 		player.update();
+		enemy.update();
 		modelBatch.begin(cam);
 		solid.render();
 		player.render();
@@ -146,10 +147,10 @@ public class MyGdxGame extends ScreenAdapter {
 				solid.spawn(x, 0, z);
 				switch (c) {
 					case '#': // wall
-						wall.spawn(x, 0, z);
+						wall.spawn(x, 100, z);
 						break;
 					case '*': // brick
-						brick.spawn(x + 30, 0, z - 10);
+						brick.spawn(x + 30,0, z - 10);
 						break;
 					case 'x': // portal
 						portal.spawn(x, 0, z);
@@ -193,6 +194,7 @@ public class MyGdxGame extends ScreenAdapter {
 		flameItem.dispose();
 		bombItem.dispose();
 		itemBox.dispose();
+		enemy.dispose();
 	}
 
 	public Enemy getEnemy() {
@@ -205,5 +207,9 @@ public class MyGdxGame extends ScreenAdapter {
 
 	public Portal getPortal() {
 		return portal;
+	}
+
+	public Explode getExplode() {
+		return explode;
 	}
 }
