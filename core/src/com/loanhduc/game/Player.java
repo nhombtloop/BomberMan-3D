@@ -39,6 +39,8 @@ public class Player extends MovingEntity {
         canWalkThrough.add('s'); // speed item
         canWalkThrough.add('f'); // flame item
         canWalkThrough.add('1'); // enemy1
+        canWalkThrough.add('2'); // enemy2
+        canWalkThrough.add('F'); // Flame
         bomb = new Bomb(myGdxGame);
     }
 
@@ -86,13 +88,18 @@ public class Player extends MovingEntity {
     }
 
     @Override
-
     public void update() {
+        if (collisionWithFire()) {
+            System.out.println("FIRE");
+            isDead = true;
+        }
         if (collisionWithEnemy()) {
             game.getPlayer().setDead(true);
         }
         eventHandle();
     }
+
+
 
     public void createBomb() {
         int bombInstanceX = Math.round(x / 200) * 200;

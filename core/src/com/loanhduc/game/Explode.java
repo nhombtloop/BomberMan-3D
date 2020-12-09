@@ -30,7 +30,7 @@ public class Explode {
             ObjectInstance objectInstance = new ObjectInstance(modelInstance);
             rallyEntity.add(objectInstance);
             AnimationController ani = new AnimationController(modelInstance);
-            ani.setAnimation("Armature|idle", -1);
+            ani.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
             rallyAnimation.add(ani);
             for (int i = 1; i <= size; i++) {
                 if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
@@ -39,7 +39,7 @@ public class Explode {
                 ObjectInstance objectInstance1 = new ObjectInstance(modelInstance1);
                 rallyEntity.add(objectInstance1);
                 AnimationController ani1 = new AnimationController(modelInstance1);
-                ani1.setAnimation("Armature|idle", -1);
+                ani1.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
                 rallyAnimation.add(ani1);
             }
             for (int i = 1; i <= size; i++) {
@@ -49,7 +49,7 @@ public class Explode {
                 ObjectInstance objectInstance2 = new ObjectInstance(modelInstance2);
                 rallyEntity.add(objectInstance2);
                 AnimationController ani2 = new AnimationController(modelInstance2);
-                ani2.setAnimation("Armature|idle", -1);
+                ani2.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
                 rallyAnimation.add(ani2);
             }
             for (int i = -1; i >= -size; i--) {
@@ -59,7 +59,7 @@ public class Explode {
                 ObjectInstance objectInstance1 = new ObjectInstance(modelInstance1);
                 rallyEntity.add(objectInstance1);
                 AnimationController ani1 = new AnimationController(modelInstance1);
-                ani1.setAnimation("Armature|idle", -1);
+                ani1.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
                 rallyAnimation.add(ani1);
             }
             for (int i = -1; i >= -size; i--) {
@@ -69,7 +69,7 @@ public class Explode {
                 ObjectInstance objectInstance2 = new ObjectInstance(modelInstance2);
                 rallyEntity.add(objectInstance2);
                 AnimationController ani2 = new AnimationController(modelInstance2);
-                ani2.setAnimation("Armature|idle", -1);
+                ani2.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
                 rallyAnimation.add(ani2);
             }
         }
@@ -139,5 +139,9 @@ public class Explode {
         for (Explode.Fire i : fire) {
             if (i.isExplode) i.render();
         }
+    }
+
+    public ArrayList<Fire> getFire() {
+        return fire;
     }
 }

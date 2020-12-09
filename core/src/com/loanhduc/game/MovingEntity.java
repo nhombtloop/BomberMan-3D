@@ -10,8 +10,7 @@ public abstract class MovingEntity extends Entity {
     protected float velocity;
     protected ModelInstance modelInstance;
     protected ArrayList<Character> canWalkThrough = new ArrayList<>();
-    protected
-    MyGdxGame game;
+    protected MyGdxGame game;
 
     @Override
     public void create() {
@@ -99,5 +98,8 @@ public abstract class MovingEntity extends Entity {
                 game.getPlayer().z + game.getPlayer().height > other.getPosition().z);
     }
 
+    protected boolean collisionWithFire() {
+        return Map.map[(int) (z / 200)][(int) (x / 200)] == 'F';
+    }
 
 }
