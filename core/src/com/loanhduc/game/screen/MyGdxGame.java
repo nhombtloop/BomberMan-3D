@@ -26,7 +26,6 @@ public class MyGdxGame extends ScreenAdapter {
 	private static ModelBatch modelBatch;
 	private static Environment environment;
 	protected Stage stage;
-	public static Random generator = new Random();
 
 	private Player player = new Player(this);
 	public Explode explode = new Explode(this);
@@ -37,7 +36,6 @@ public class MyGdxGame extends ScreenAdapter {
 	private SpeedItem speedItem = new SpeedItem();
 	private FlameItem flameItem = new FlameItem();
 	private BombItem bombItem = new BombItem();
-	private ItemBox itemBox = new ItemBox();
 	private Enemy enemy = new Enemy(this);
 
 	public MyGdxGame(BoomGame game) {
@@ -79,7 +77,6 @@ public class MyGdxGame extends ScreenAdapter {
 		speedItem.create();
 		flameItem.create();
 		bombItem.create();
-		itemBox.create();
 		enemy.createEnemy();
 
 		renderMap();
@@ -118,7 +115,6 @@ public class MyGdxGame extends ScreenAdapter {
 		player.render();
 		wall.render();
 		brick.render();
-		itemBox.render();
 		portal.render();
 
 		speedItem.render();
@@ -167,9 +163,6 @@ public class MyGdxGame extends ScreenAdapter {
 					case 's': // speed Item
 						speedItem.spawn(x, 0, z);
 						break;
-					case '?': // Question Mark block
-						itemBox.spawn(x, 0, z);
-						break;
 				}
 			}
 		}
@@ -196,7 +189,6 @@ public class MyGdxGame extends ScreenAdapter {
 		speedItem.dispose();
 		flameItem.dispose();
 		bombItem.dispose();
-		itemBox.dispose();
 		enemy.dispose();
 	}
 

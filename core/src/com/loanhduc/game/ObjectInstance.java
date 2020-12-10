@@ -17,11 +17,11 @@ public class ObjectInstance {
     }
 
     public void disappear() {
-        Map.map[(int) position.z/200][(int) position.x/200] = ' ';
+        Map.map[(int) position.z/Map.CELL_WIDTH][(int) position.x/Map.CELL_WIDTH] = ' ';
     }
 
     public char getEntity() {
-        return Map.map[(int) position.z/200][(int) position.x/200];
+        return Map.map[(int) position.z/Map.CELL_WIDTH][(int) position.x/Map.CELL_WIDTH];
     }
 
     public ModelInstance getModelInstance() {
