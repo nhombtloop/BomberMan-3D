@@ -5,13 +5,18 @@ import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.loanhduc.game.screen.MyGdxGame;
 
 public class Monster extends Enemy {
+    private boolean isMovingLeft = false;
+    private boolean isMovingRight = false;
+    private boolean isMovingUp = false;
+    private boolean isMovingDown = false;
+    private int step = Map.CELL_WIDTH;
     AnimationController animationController_runs;
     public Monster(MyGdxGame game) {
         super(game);
         path = "monster/monster.g3db";
         velocity = 5;
-        width = 150;
-        height = 150;
+        width = 195;
+        height = 195;
         canWalkThrough.add('p');
         canWalkThrough.add(' ');
         canWalkThrough.add('b'); // bomb item
@@ -20,6 +25,7 @@ public class Monster extends Enemy {
         canWalkThrough.add('x');
         canWalkThrough.add('1');
         canWalkThrough.add('2');
+        canWalkThrough.add('F');
     }
 
     @Override
@@ -37,7 +43,20 @@ public class Monster extends Enemy {
             return;
         }
         super.render();
-        chasing();
+        if (step == 0) {
+            chasing();
+            step = Map.CELL_WIDTH;
+        }
+        if (isMovingLeft) {
+            this.moveLeft();
+        } else if (isMovingRight) {
+            this.moveRight();
+        } else if (isMovingUp) {
+            moveUp();
+        } else if (isMovingDown) {
+            moveDown();
+        }
+        step -= velocity;
         animationController_runs.update(Gdx.graphics.getDeltaTime());
     }
 
@@ -46,26 +65,32 @@ public class Monster extends Enemy {
         float playerZ = game.getPlayer().z;
         float distanceX = Math.abs(playerX - this.x);
         float distanceZ = Math.abs(playerZ - this.z);
-        if (this.x < playerX && this.z >= playerZ) {
-            if (distanceX <= distanceZ && canMoveUp())
-                moveUp();
-            else if (distanceX > distanceZ && canMoveRight())
-                moveRight();
-        } else if (this.x >= playerX && this.z > playerZ) {
-            if (distanceX <= distanceZ && canMoveUp())
-                moveUp();
-            else if (distanceX > distanceZ && canMoveLeft())
-                moveLeft();
-        } else if (this.x > playerX && this.z <= playerZ) {
-            if (distanceX <= distanceZ && canMoveDown())
-                moveDown();
-            else if (distanceX > distanceZ && canMoveLeft())
-                moveLeft();
-        } else if (this.x <= playerX && this.z < playerZ) {
-            if (distanceX <= distanceZ && canMoveDown())
-                moveDown();
-            else if (distanceX > distanceZ && canMoveRight())
-                moveRight();
+        if (distanceX >= distanceZ) {
+            // move Right or Left
+            if (this.x > playerX && canMoveLeft()) {
+                isMovingLeft = true;
+                isMovingDown = false;
+                isMovingUp = false;
+                isMovingRight = false;
+            } else if (this.x < playerX && canMoveRight()) {
+                isMovingLeft = false;
+                isMovingDown = false;
+                isMovingUp = false;
+                isMovingRight = true;
+            }
+        } else {
+            // move Up or Down
+            if (this.z < playerZ && canMoveDown()) {
+                isMovingLeft = false;
+                isMovingDown = true;
+                isMovingUp = false;
+                isMovingRight = false;
+            } else if (this.z > playerZ && canMoveUp()) {
+                isMovingLeft = false;
+                isMovingDown = false;
+                isMovingUp = true;
+                isMovingRight = false;
+            }
         }
     }
 

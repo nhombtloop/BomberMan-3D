@@ -27,6 +27,7 @@ public class Robot extends Enemy {
         canWalkThrough.add('x');
         canWalkThrough.add('1');
         canWalkThrough.add('2');
+        canWalkThrough.add('F');
     }
 
     @Override
