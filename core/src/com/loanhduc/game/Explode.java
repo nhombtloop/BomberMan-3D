@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Explode {
+
     MyGdxGame game;
     private ArrayList<Fire> fire = new ArrayList<>();
+
+
 
     public Explode(MyGdxGame game) {
         this.game = game;
@@ -25,6 +28,8 @@ public class Explode {
         }
 
         public void spawn(int x, int z, int size) {
+            width = 200;
+            height = 200;
             ModelInstance modelInstance = new ModelInstance(model);
             modelInstance.transform.setToTranslation(x, 0, z);
             ObjectInstance objectInstance = new ObjectInstance(modelInstance);
@@ -124,6 +129,7 @@ public class Explode {
             Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = ' ';
         }
         fire.remove(doneFire);
+
     }
 
     public void createExplode(int x, int z, int size) {

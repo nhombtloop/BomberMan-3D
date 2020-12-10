@@ -102,6 +102,9 @@ public class MyGdxGame extends ScreenAdapter {
 
 	@Override
 	public void render(float delta) {
+		if(enemy.getEnemies().size() == 0) {
+			game.setScreen(new GameOver(game));
+		}
 		cameraInputController.update();
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(0.2f,1f,1f,1);

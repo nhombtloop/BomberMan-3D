@@ -38,6 +38,11 @@ public class Robot extends Enemy {
 
     @Override
     public void render() {
+        if(checkCollisionWithFire()) {
+            game.getEnemy().getEnemies().remove(this);
+            System.out.println(game.getEnemy().getEnemies().size());
+            return;
+        }
         super.render();
         if (turnLeft) {
             this.moveLeft();
