@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.loanhduc.game.screen.MyGdxGame;
 
 public class Monster extends Enemy {
-    private boolean isMovingLeft = false;
+    private boolean isMovingLeft = true;
     private boolean isMovingRight = false;
     private boolean isMovingUp = false;
     private boolean isMovingDown = false;
-    private int step = Map.CELL_WIDTH;
     AnimationController animationController_runs;
+
     public Monster(MyGdxGame game) {
         super(game);
         path = "monster/monster.g3db";
@@ -39,14 +39,17 @@ public class Monster extends Enemy {
     public void render() {
         if(checkCollisionWithFire()) {
             game.getEnemy().getEnemies().remove(this);
-            System.out.println(game.getEnemy().getEnemies().size());
             return;
         }
         super.render();
-        if (step == 0) {
+        if (x % Map.CELL_WIDTH == 0 && z % Map.CELL_WIDTH == 0) {
             chasing();
-            step = Map.CELL_WIDTH;
         }
+        move();
+        animationController_runs.update(Gdx.graphics.getDeltaTime());
+    }
+
+    private void move() {
         if (isMovingLeft) {
             this.moveLeft();
         } else if (isMovingRight) {
@@ -56,8 +59,6 @@ public class Monster extends Enemy {
         } else if (isMovingDown) {
             moveDown();
         }
-        step -= velocity;
-        animationController_runs.update(Gdx.graphics.getDeltaTime());
     }
 
     private void chasing() {
@@ -65,7 +66,7 @@ public class Monster extends Enemy {
         float playerZ = game.getPlayer().z;
         float distanceX = Math.abs(playerX - this.x);
         float distanceZ = Math.abs(playerZ - this.z);
-        if (distanceX >= distanceZ) {
+        if (distanceX > distanceZ) {
             // move Right or Left
             if (this.x > playerX && canMoveLeft()) {
                 isMovingLeft = true;
@@ -92,6 +93,7 @@ public class Monster extends Enemy {
                 isMovingRight = false;
             }
         }
+
     }
 
     @Override

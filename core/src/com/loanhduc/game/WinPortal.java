@@ -8,11 +8,12 @@ import com.loanhduc.game.screen.MyGdxGame;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Portal extends StaticEntity {
+public class WinPortal extends StaticEntity {
     private List<AnimationController> animationControllers = new ArrayList<>();
+    private boolean isOpen = false;
 
-    public Portal() {
-        path = "portal.g3db";
+    public WinPortal() {
+        path = "winPortal/exit.g3db";
     }
 
     @Override
@@ -36,4 +37,11 @@ public class Portal extends StaticEntity {
         }
     }
 
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
 }

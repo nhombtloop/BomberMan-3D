@@ -37,6 +37,7 @@ public class MyGdxGame extends ScreenAdapter {
 	private FlameItem flameItem = new FlameItem();
 	private BombItem bombItem = new BombItem();
 	private Enemy enemy = new Enemy(this);
+	private WinPortal winPortal = new WinPortal();
 
 	public MyGdxGame(BoomGame game) {
 		this.game = game;
@@ -78,6 +79,7 @@ public class MyGdxGame extends ScreenAdapter {
 		flameItem.create();
 		bombItem.create();
 		enemy.createEnemy();
+		winPortal.create();
 
 		renderMap();
 		SoundEffect.playSoundInGame();
@@ -100,6 +102,9 @@ public class MyGdxGame extends ScreenAdapter {
 	@Override
 	public void render(float delta) {
 		if(enemy.getEnemies().size() == 0) {
+			winPortal.setOpen(true);
+		}
+		if(winPortal.isOpen() && player.collisionWithWinPortal()) {
 			game.setScreen(new GameOver(game));
 		}
 		cameraInputController.update();
@@ -120,6 +125,7 @@ public class MyGdxGame extends ScreenAdapter {
 		speedItem.render();
 		flameItem.render();
 		bombItem.render();
+		winPortal.render();
 
 		enemy.renderEnemy();
 		explode.renderExplode();
@@ -163,6 +169,9 @@ public class MyGdxGame extends ScreenAdapter {
 					case 's': // speed Item
 						speedItem.spawn(x, 0, z);
 						break;
+					case 'w':
+						winPortal.spawn(x, 0, z);
+						break;
 				}
 			}
 		}
@@ -190,6 +199,7 @@ public class MyGdxGame extends ScreenAdapter {
 		flameItem.dispose();
 		bombItem.dispose();
 		enemy.dispose();
+		winPortal.dispose();
 	}
 
 	public Enemy getEnemy() {
@@ -206,5 +216,9 @@ public class MyGdxGame extends ScreenAdapter {
 
 	public Explode getExplode() {
 		return explode;
+	}
+
+	public WinPortal getWinPortal() {
+		return winPortal;
 	}
 }
