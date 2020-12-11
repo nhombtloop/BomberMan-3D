@@ -5,11 +5,13 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 public class SoundEffect {
-    private static Sound boom = Gdx.audio.newSound(Gdx.files.internal("coin.wav"));
+    private static Sound boom = Gdx.audio.newSound(Gdx.files.internal("explode.mp3"));
     // fix later with boom sound
     private static Music inGamePlay = Gdx.audio.newMusic(Gdx.files.internal("ingameplay.mp3"));
 
     private static Music menuSound = Gdx.audio.newMusic(Gdx.files.internal("menu.mp3"));
+
+    private static Sound eatItem = Gdx.audio.newSound(Gdx.files.internal("coin.wav"));
 
     public static void playSoundBoom() {
         boom.play(1.5f);
@@ -17,7 +19,9 @@ public class SoundEffect {
     public static void playSoundInGame() {
         inGamePlay.play();
     }
-
+    public static void playEatItem () {
+        eatItem.play(1.5f);
+    }
     public static void stopInGameSound() {
         inGamePlay.stop();
         inGamePlay.dispose();

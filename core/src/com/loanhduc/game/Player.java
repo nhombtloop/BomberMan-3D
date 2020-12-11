@@ -151,6 +151,7 @@ public class Player extends MovingEntity {
         for (ObjectInstance objectInstance : Items.getItemInstances()) {
             if (collisionWith(objectInstance)) {
                 Items.removeInstance(objectInstance);
+                SoundEffect.playEatItem();
                 char c = objectInstance.getEntity();
                 objectInstance.disappear();
                 return c;
