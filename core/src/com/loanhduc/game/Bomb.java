@@ -18,6 +18,8 @@ public class Bomb extends StaticEntity {
 
     public Bomb(MyGdxGame game) {
         path = "bomb.g3db";
+        width = 200;
+        height = 200;
         this.myGdxGame = game;
     }
 
