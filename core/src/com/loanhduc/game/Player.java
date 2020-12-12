@@ -125,7 +125,6 @@ public class Player extends MovingEntity {
         if (game.getPlayer().isDead()) {
             animationController_dead.update(Gdx.graphics.getDeltaTime());
             SoundEffect.stopInGameSound();
-            System.out.println("game over");
             game.getGame().setScreen(new GameOver(game.getGame()));
         } else if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             animationController_run.update(Gdx.graphics.getDeltaTime());

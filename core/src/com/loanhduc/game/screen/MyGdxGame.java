@@ -105,7 +105,7 @@ public class MyGdxGame extends ScreenAdapter {
 			winPortal.setOpen(true);
 		}
 		if(winPortal.isOpen() && player.collisionWithWinPortal()) {
-			game.setScreen(new GameOver(game));
+			game.setScreen(new WinGame(game));
 		}
 		cameraInputController.update();
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
