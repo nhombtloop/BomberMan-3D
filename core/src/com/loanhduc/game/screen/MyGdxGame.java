@@ -18,14 +18,9 @@ import java.util.Random;
 
 public class MyGdxGame extends ScreenAdapter {
 	private BoomGame game;
-	public BoomGame getGame() {
-		return game;
-	}
 	private static PerspectiveCamera cam;
-	private static CameraInputController cameraInputController;
 	private static ModelBatch modelBatch;
 	private static Environment environment;
-	protected Stage stage;
 
 	private Player player = new Player(this);
 	public Explode explode = new Explode(this);
@@ -45,17 +40,15 @@ public class MyGdxGame extends ScreenAdapter {
 	public void changeView() {
 
 	}
+	public BoomGame getGame() {
+		return game;
+	}
 
 	@Override
 	public void show() {
 		cam = new PerspectiveCamera(76, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		cam.position.set(0f, 2000, 100f);
-		cam.lookAt(0f, 0f, 0f);
 		cam.near = 1f;
 		cam.far = 10000.0f;
-
-		cameraInputController = new CameraInputController(cam);
-		Gdx.input.setInputProcessor(cameraInputController);
 
 		modelBatch = new ModelBatch();
 
@@ -65,14 +58,14 @@ public class MyGdxGame extends ScreenAdapter {
 			e.printStackTrace();
 		}
 
-		player.create();
 		environment = new Environment();
 		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 200f, 200f, 200f, 1.0f));
 		environment.add(new DirectionalLight().set(200f, 200f, 200f, -10f, -10f, -10f));
 
+		player.create();
 		brick.create();
 		solid.create();
-		wall.create(); //khoi tao
+		wall.create();
 		portal.create();
 
 		speedItem.create();
@@ -101,17 +94,19 @@ public class MyGdxGame extends ScreenAdapter {
 
 	@Override
 	public void render(float delta) {
+		Utils.DELTA_TIME = Gdx.graphics.getDeltaTime();
 		if(enemy.getEnemies().size() == 0) {
 			winPortal.setOpen(true);
 		}
 		if(winPortal.isOpen() && player.collisionWithWinPortal()) {
 			game.setScreen(new WinGame(game));
 		}
-		cameraInputController.update();
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(0.2f,1f,1f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
+
 		cameraFollowPlayer();
+
 		cam.update();
 		player.update();
 		enemy.update();
@@ -136,6 +131,7 @@ public class MyGdxGame extends ScreenAdapter {
 		char[][] map = Map.map;
 		int cell = Map.CELL_WIDTH;
 		brick.checkBurned(map, cell);
+		player.getBomb().checkBurned(map, cell);
 	}
 
 	private void cameraFollowPlayer() {

@@ -20,7 +20,7 @@ public class Player extends MovingEntity {
     int flameLength;
     boolean isDead;
     boolean isTeleport;
-
+    int direction = 2;
 
     public Player(MyGdxGame myGdxGame) {
         super(myGdxGame);
@@ -73,7 +73,6 @@ public class Player extends MovingEntity {
         if (bomb.isSet) {
             bomb.render();
             if (!runAwayBomb()) canWalkThrough.remove((Character) 'B');
-
         }
     }
 
@@ -116,7 +115,6 @@ public class Player extends MovingEntity {
             bomb.isSet = true;
             game.explode.createExplode(bombInstanceX, bombInstanceZ, flameLength);
             canWalkThrough.add('B');
-
             Utils.setTimeout(() -> bomb.explode(bombInstance, bombAnimationController, bombInstanceX, bombInstanceZ), 3000);
         }
     }
@@ -251,5 +249,9 @@ public class Player extends MovingEntity {
 
     public void setDead(boolean dead) {
         isDead = dead;
+    }
+
+    public Bomb getBomb() {
+        return bomb;
     }
 }

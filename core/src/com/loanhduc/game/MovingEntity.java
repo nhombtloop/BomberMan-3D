@@ -1,5 +1,6 @@
 package com.loanhduc.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 import com.loanhduc.game.screen.MyGdxGame;
@@ -98,7 +99,7 @@ public abstract class MovingEntity extends Entity {
                 game.getPlayer().z + game.getPlayer().height > other.getPosition().z);
     }
 
-    protected boolean collisionWithFire() {
+    protected boolean  collisionWithFire() {
         return Map.map[(int) (z / 200)][(int) (x / 200)] == 'F';
     }
 
