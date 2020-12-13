@@ -14,6 +14,7 @@ class Function {
 }
 
 public class Utils {
+    public static double DELTA_TIME = 0;
     public static double TIME = 0;
     static ArrayList<Function> functions = new ArrayList<>();
 
@@ -28,6 +29,21 @@ public class Utils {
             }
         }).start();
     }
+
+    public static void setTimeout2(Runnable runnable1, int delay1, Runnable runnable2, int delay2){
+        new Thread(() -> {
+            try {
+                Thread.sleep(delay1);
+                runnable1.run();
+                Thread.sleep(delay2);
+                runnable2.run();
+            }
+            catch (Exception e){
+                System.err.println(e);
+            }
+        }).start();
+    }
+
 
     public static void setTime(Runnable runnable, double delayTime) {
         Function newFunction = new Function(runnable, delayTime);

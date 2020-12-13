@@ -26,9 +26,9 @@ public abstract class StaticEntity extends Entity {
     }
 
     public void checkBurned(char[][] map, int cell) {
-        for(int i =0; i<rallyEntity.size(); i++) {
+        for (int i = 0; i < rallyEntity.size(); i++) {
             Vector3 pos = rallyEntity.get(i).getPosition();
-            if(map[(int) ((pos.z +100)/cell)][(int) ((pos.x+100)/cell)]=='F') {
+            if (map[(int) ((pos.z+100) / cell)][(int) ((pos.x+100) / cell)] == 'F') {
                 rallyEntity.remove(i);
                 i--;
             }

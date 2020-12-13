@@ -9,11 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Explode {
-
     MyGdxGame game;
     private ArrayList<Fire> fire = new ArrayList<>();
-
-
 
     public Explode(MyGdxGame game) {
         this.game = game;
@@ -46,6 +43,7 @@ public class Explode {
                 AnimationController ani1 = new AnimationController(modelInstance1);
                 ani1.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
                 rallyAnimation.add(ani1);
+                if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '*') break;
             }
             for (int i = 1; i <= size; i++) {
                 if (Map.map[(z + i * 200) / Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
@@ -56,6 +54,7 @@ public class Explode {
                 AnimationController ani2 = new AnimationController(modelInstance2);
                 ani2.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
                 rallyAnimation.add(ani2);
+                if (Map.map[(z + i * 200) / Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '*') break;
             }
             for (int i = -1; i >= -size; i--) {
                 if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
@@ -66,6 +65,7 @@ public class Explode {
                 AnimationController ani1 = new AnimationController(modelInstance1);
                 ani1.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
                 rallyAnimation.add(ani1);
+                if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '*') break;
             }
             for (int i = -1; i >= -size; i--) {
                 if (Map.map[(z + i * 200) / Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
@@ -76,6 +76,7 @@ public class Explode {
                 AnimationController ani2 = new AnimationController(modelInstance2);
                 ani2.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
                 rallyAnimation.add(ani2);
+                if (Map.map[(z + i * 200) / Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '*') break;
             }
         }
 
@@ -90,21 +91,29 @@ public class Explode {
         public void active(int x, int z, int size, MyGdxGame game) {
             isExplode = true;
             Map.map[z / Map.CELL_WIDTH][x / Map.CELL_WIDTH] = 'F';
-            for (int i = 0; i <= size; i++) {
-                if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
+            for (int i = 1; i <= size; i++) {
+                char tmp = Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH];
+                if(tmp == '#') break;
                 Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = 'F';
+                if(tmp == '*') break;
             }
-            for (int i = 0; i <= size; i++) {
-                if (Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
+            for (int i = 1; i <= size; i++) {
+                char tmp = Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)];
+                if(tmp == '#') break;
                 Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = 'F';
+                if(tmp == '*') break;
             }
-            for (int i = 0; i >= -size; i--) {
-                if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
+            for (int i = 1; i >= -size; i--) {
+                char tmp = Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH];
+                if(tmp == '#') break;
                 Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = 'F';
+                if(tmp == '*') break;
             }
-            for (int i = 0; i >= -size; i--) {
-                if (Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
+            for (int i = 1; i >= -size; i--) {
+                char tmp = Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)];
+                if(tmp == '#') break;
                 Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = 'F';
+                if(tmp == '*') break;
             }
             game.checkBurned();
         }
@@ -112,24 +121,27 @@ public class Explode {
 
     public void doneExplode(Fire doneFire, int x, int z, int size) {
         Map.map[z / Map.CELL_WIDTH][x / Map.CELL_WIDTH] = ' ';
-        for (int i = 0; i <= size; i++) {
-            if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
+        for (int i = 1; i <= size; i++) {
+            char tmp = Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH];
+            if(tmp == '*' || tmp == '#') break;
             Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = ' ';
         }
-        for (int i = 0; i <= size; i++) {
-            if (Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
+        for (int i = 1; i <= size; i++) {
+            char tmp = Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)];
+            if(tmp == '*' || tmp == '#') break;
             Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = ' ';
         }
-        for (int i = 0; i >= -size; i--) {
-            if (Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] == '#') break;
+        for (int i = 1; i >= -size; i--) {
+            char tmp = Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH];
+            if(tmp == '*' || tmp == '#') break;
             Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = ' ';
         }
-        for (int i = 0; i >= -size; i--) {
-            if (Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] == '#') break;
+        for (int i = 1; i >= -size; i--) {
+            char tmp = Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)];
+            if(tmp == '*' || tmp == '#') break;
             Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = ' ';
         }
         fire.remove(doneFire);
-
     }
 
     public void createExplode(int x, int z, int size) {
@@ -137,8 +149,8 @@ public class Explode {
         newFire.create();
         newFire.spawn(x, z, size);
         fire.add(newFire);
-        Utils.setTimeout(() -> newFire.active(x, z, size, game), 3000);
-        Utils.setTimeout(() -> doneExplode(newFire, x, z, size), 3500);
+        Utils.setTimeout2(() -> newFire.active(x, z, size, game), 3000,
+                () -> doneExplode(newFire, x, z, size), 500);
     }
 
     public void renderExplode() {
