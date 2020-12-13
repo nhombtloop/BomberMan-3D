@@ -3,6 +3,7 @@ package com.loanhduc.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
+import com.badlogic.gdx.math.Vector3;
 import com.loanhduc.game.screen.MyGdxGame;
 
 import java.util.ArrayList;
@@ -90,56 +91,18 @@ public class Explode {
 
         public void active(int x, int z, int size, MyGdxGame game) {
             isExplode = true;
-            Map.map[z / Map.CELL_WIDTH][x / Map.CELL_WIDTH] = 'F';
-            for (int i = 1; i <= size; i++) {
-                char tmp = Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH];
-                if(tmp == '#') break;
-                Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = 'F';
-                if(tmp == '*') break;
-            }
-            for (int i = 1; i <= size; i++) {
-                char tmp = Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)];
-                if(tmp == '#') break;
-                Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = 'F';
-                if(tmp == '*') break;
-            }
-            for (int i = 1; i >= -size; i--) {
-                char tmp = Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH];
-                if(tmp == '#') break;
-                Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = 'F';
-                if(tmp == '*') break;
-            }
-            for (int i = 1; i >= -size; i--) {
-                char tmp = Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)];
-                if(tmp == '#') break;
-                Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = 'F';
-                if(tmp == '*') break;
+            for (ObjectInstance objectInstance : rallyEntity) {
+                Vector3 pos = objectInstance.getPosition();
+                Map.map[(int) (pos.z / Map.CELL_WIDTH)][(int) (pos.x / Map.CELL_WIDTH)] = 'F';
             }
             game.checkBurned();
         }
     }
 
     public void doneExplode(Fire doneFire, int x, int z, int size) {
-        Map.map[z / Map.CELL_WIDTH][x / Map.CELL_WIDTH] = ' ';
-        for (int i = 1; i <= size; i++) {
-            char tmp = Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH];
-            if(tmp == '*' || tmp == '#') break;
-            Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = ' ';
-        }
-        for (int i = 1; i <= size; i++) {
-            char tmp = Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)];
-            if(tmp == '*' || tmp == '#') break;
-            Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = ' ';
-        }
-        for (int i = 1; i >= -size; i--) {
-            char tmp = Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH];
-            if(tmp == '*' || tmp == '#') break;
-            Map.map[(z / Map.CELL_WIDTH)][(x + i * 200) / Map.CELL_WIDTH] = ' ';
-        }
-        for (int i = 1; i >= -size; i--) {
-            char tmp = Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)];
-            if(tmp == '*' || tmp == '#') break;
-            Map.map[(z + i*200)/ Map.CELL_WIDTH][(x / Map.CELL_WIDTH)] = ' ';
+        for (ObjectInstance objectInstance : doneFire.rallyEntity) {
+            Vector3 pos = objectInstance.getPosition();
+            Map.map[(int) (pos.z / Map.CELL_WIDTH)][(int) (pos.x / Map.CELL_WIDTH)] = ' ';
         }
         fire.remove(doneFire);
     }
@@ -154,8 +117,9 @@ public class Explode {
     }
 
     public void renderExplode() {
-        for (Explode.Fire i : fire) {
-            if (i.isExplode) i.render();
+        for(int i =0; i<fire.size(); i++) {
+            Fire tmp = fire.get(i);
+            if (tmp.isExplode) tmp.render();
         }
     }
 

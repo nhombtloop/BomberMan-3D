@@ -44,7 +44,6 @@ public class Utils {
         }).start();
     }
 
-
     public static void setTime(Runnable runnable, double delayTime) {
         Function newFunction = new Function(runnable, delayTime);
         functions.add(newFunction);
