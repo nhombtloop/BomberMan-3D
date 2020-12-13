@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
+import com.badlogic.gdx.math.Vector3;
 import com.loanhduc.game.screen.GameOver;
 import com.loanhduc.game.screen.MyGdxGame;
 import com.loanhduc.game.util.SoundEffect;
@@ -74,6 +75,7 @@ public class Player extends MovingEntity {
             bomb.render();
             if (!runAwayBomb()) canWalkThrough.remove((Character) 'B');
         }
+        System.out.println("map:" + Map.map[1][1]);
     }
 
     boolean runAwayBomb() {

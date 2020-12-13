@@ -57,4 +57,13 @@ public class Utils {
             }
         }
     }
+
+    public static ArrayList<Character> getCoordinate(char[][] map, int cell, int x, int z, int size) {
+        ArrayList<Character> result = new ArrayList<>();
+        result.add(map[z/cell][x/cell]);
+        result.add(map[(z+size)/cell][x/cell]);
+        result.add(map[z/cell][(x+size)/cell]);
+        result.add(map[(z+size)/cell][(x+size)/cell]);
+        return result;
+    }
 }

@@ -153,7 +153,7 @@ public class MyGdxGame extends ScreenAdapter {
 					case '#': // wall
 						wall.spawn(x, 100, z);
 						break;
-					case '*': // brick
+					case '*':
 						brick.spawn(x + 30,0, z - 10);
 						break;
 					case 'x': // portal
