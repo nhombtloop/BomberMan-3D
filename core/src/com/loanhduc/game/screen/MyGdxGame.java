@@ -96,6 +96,8 @@ public class MyGdxGame extends ScreenAdapter {
 	public void render(float delta) {
 		Utils.DELTA_TIME = Gdx.graphics.getDeltaTime();
 		Utils.TIME += Utils.DELTA_TIME;
+		Utils.runFunction();
+
 		if(enemy.getEnemies().size() == 0) {
 			winPortal.setOpen(true);
 		}
