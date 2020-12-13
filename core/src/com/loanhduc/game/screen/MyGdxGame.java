@@ -99,6 +99,7 @@ public class MyGdxGame extends ScreenAdapter {
 			winPortal.setOpen(true);
 		}
 		if(winPortal.isOpen() && player.collisionWithWinPortal()) {
+			SoundEffect.stopInGameSound();
 			game.setScreen(new WinGame(game));
 		}
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -108,8 +109,7 @@ public class MyGdxGame extends ScreenAdapter {
 		cameraFollowPlayer();
 
 		cam.update();
-		player.update();
-		enemy.update();
+
 		modelBatch.begin(cam);
 		solid.render();
 		player.render();
@@ -124,6 +124,8 @@ public class MyGdxGame extends ScreenAdapter {
 
 		enemy.renderEnemy();
 		explode.renderExplode();
+		player.update();
+		enemy.update();
 		modelBatch.end();
 	}
 

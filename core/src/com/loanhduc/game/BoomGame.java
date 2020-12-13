@@ -8,6 +8,6 @@ import com.loanhduc.game.screen.WinGame;
 public class BoomGame extends Game {
     @Override
     public void create() {
-        setScreen(new WinGame(this));
+        setScreen(new Menu(this));
     }
 }
