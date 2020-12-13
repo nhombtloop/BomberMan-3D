@@ -16,9 +16,9 @@ public class Player extends MovingEntity {
     AnimationController animationController_dead;
     private Bomb bomb;
     int bombSet;
-    int maxBomb;
-    int flameLength;
-    boolean isDead;
+    private int maxBomb;
+    private int flameLength;
+    private boolean isDead;
     boolean isTeleport;
     int direction = 2;
 

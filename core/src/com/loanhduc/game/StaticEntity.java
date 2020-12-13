@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class StaticEntity extends Entity {
-    List<ObjectInstance> rallyEntity = new ArrayList<>();
+    protected List<ObjectInstance> rallyEntity = new ArrayList<>();
 
     public void spawn(float x, float y, float z) {
         ModelInstance modelInstance = new ModelInstance(model);
