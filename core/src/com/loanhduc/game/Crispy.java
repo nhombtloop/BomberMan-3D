@@ -16,8 +16,8 @@ public class Crispy extends Monster {
 
     public Crispy(MyGdxGame game) {
         super(game);
-        path = "crispy.g3db";
-        velocity = 3;
+        path = "crispyEnemy.g3db";
+        velocity = 5;
     }
 
     @Override
@@ -28,11 +28,11 @@ public class Crispy extends Monster {
         modelInstance = new ModelInstance(model);
         modelInstance.transform.setToTranslation(x, y, z);
         animationController_runs = new AnimationController(modelInstance);
-        animationController_runs.setAnimation("Armature|Armature|Armature|run|Armature|run", -1);
+        animationController_runs.setAnimation("Armature|run", -1);
         idle = new AnimationController(modelInstance);
-        idle.setAnimation("Armature|Armature|Armature|idle|Armature|idle", -1);
+        idle.setAnimation("Armature|idle", -1);
         transform = new AnimationController(modelInstance);
-        transform.setAnimation("Armature|Armature|Armature|transform_in|Armature|transform_in", 1);
+        transform.setAnimation("Armature|transform_in", 1);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Crispy extends Monster {
             return;
         }
         if(checkCollisionWithFire() && !wakeup) {
-            Utils.setTime(this::setWakeup, 2.0);
+            Utils.setTime(this::setWakeup, 1.0);
             transform.update((float) Utils.DELTA_TIME);
             Utils.setTime(this::setImmortal, 1.0);
             return;

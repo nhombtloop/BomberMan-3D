@@ -111,7 +111,7 @@ public class MyGdxGame extends ScreenAdapter {
 		enemy.createEnemy();
 		winPortal.create();
 
-		renderMap();
+		Map.renderMap(this);
 		SoundEffect.playSoundInGame();
 		setupView();
 	}
@@ -170,39 +170,6 @@ public class MyGdxGame extends ScreenAdapter {
 		player.getBomb().checkBurned(map, cell);
 	}
 
-	public void renderMap() {
-		for (int i = 0; i < Map.ROWS; i++) {
-			for (int j = 0; j < Map.COLUMNS; j++) {
-				char c = Map.map[i][j];
-				int x = j * Map.CELL_WIDTH;
-				int z = i * Map.CELL_WIDTH;
-				solid.spawn(x, 0, z);
-				switch (c) {
-					case '#': // wall
-						wall.spawn(x, 100, z);
-						break;
-					case '*':
-						brick.spawn(x + 30,0, z - 10);
-						break;
-					case 'x': // portal
-						portal.spawn(x, 0, z);
-						break;
-					case 'b': // bomb item
-						bombItem.spawn(x, 0, z);
-						break;
-					case 'f': // flame Item
-						flameItem.spawn(x, 0, z);
-						break;
-					case 's': // speed Item
-						speedItem.spawn(x, 0, z);
-						break;
-					case 'w':
-						winPortal.spawn(x, 0, z);
-						break;
-				}
-			}
-		}
-	}
 
 	@Override
 	public void pause() {
@@ -249,5 +216,29 @@ public class MyGdxGame extends ScreenAdapter {
 
 	public WinPortal getWinPortal() {
 		return winPortal;
+	}
+
+	public Wall getWall() {
+		return wall;
+	}
+
+	public Brick getBrick() {
+		return brick;
+	}
+
+	public Solid getSolid() {
+		return solid;
+	}
+
+	public SpeedItem getSpeedItem() {
+		return speedItem;
+	}
+
+	public FlameItem getFlameItem() {
+		return flameItem;
+	}
+
+	public BombItem getBombItem() {
+		return bombItem;
 	}
 }
