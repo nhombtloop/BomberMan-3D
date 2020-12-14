@@ -1,9 +1,9 @@
-Game Bomberman 3D
-Nhóm: Việt Anh - Lò Đức - Đức Huy
+Game Bomberman 3D  
+Nhóm: Việt Anh - Lò Đức - Đức Huy  
 
-- Nội dung: Mô phỏng trò chơi Bomberman
-- Hướng dẫn: sử dụng các phím mũi tên để di chuyển, phím space để đặt bom.
-- Nhiệm vụ: Tiêu diệt hết quái vật trên bản đồ, đi vào cổng Win portal để qua màn.
+Nội dung: Mô phỏng trò chơi Bomberman  
+Hướng dẫn: sử dụng các phím mũi tên để di chuyển, phím space để đặt bom.  
+Nhiệm vụ: Tiêu diệt hết quái vật trên bản đồ, đi vào cổng Win portal để qua màn.  
 
 Các tính năng:
 + Bom nổ lan, bị chặn bởi vật thể đầu tiên
