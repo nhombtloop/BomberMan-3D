@@ -101,7 +101,7 @@ public abstract class MovingEntity extends Entity {
 
     protected boolean collisionWithFire() {
 //        return Utils.getCoordinate(Map.map, Map.CELL_WIDTH, (int)x, (int)z, 100).contains('F');
-        return Map.map[(int) z / Map.CELL_WIDTH][(int) x / Map.CELL_WIDTH] == 'F';
+        return Map.map[(int) ((z + height/2) / Map.CELL_WIDTH)][(int) ((x + width/2) / Map.CELL_WIDTH)] == 'F';
     }
 
 }
