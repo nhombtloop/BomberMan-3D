@@ -49,7 +49,7 @@ public class Monster extends Enemy {
         animationController_runs.update(Gdx.graphics.getDeltaTime());
     }
 
-    private void move() {
+    protected void move() {
         if (isMovingLeft) {
             this.moveLeft();
         } else if (isMovingRight) {
@@ -61,7 +61,7 @@ public class Monster extends Enemy {
         }
     }
 
-    private void chasing() {
+    protected void chasing() {
         float playerX = game.getPlayer().x;
         float playerZ = game.getPlayer().z;
         float distanceX = Math.abs(playerX - this.x);

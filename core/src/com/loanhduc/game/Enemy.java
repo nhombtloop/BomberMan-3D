@@ -38,6 +38,14 @@ public class Enemy extends MovingEntity {
                     enemies.add(newMonster);
                     Map.map[i][j] = ' ';
                 }
+                if (Map.map[i][j] == '3') {
+                    Crispy newMonster = new Crispy(game);
+                    newMonster.x = j * Map.CELL_WIDTH;
+                    newMonster.z = i * Map.CELL_WIDTH;
+                    newMonster.create();
+                    enemies.add(newMonster);
+                    Map.map[i][j] = '*';
+                }
             }
         }
     }
