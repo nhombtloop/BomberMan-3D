@@ -4,10 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
+import com.badlogic.gdx.math.Vector3;
 import com.loanhduc.game.screen.GameOver;
 import com.loanhduc.game.screen.MyGdxGame;
 import com.loanhduc.game.util.SoundEffect;
-import com.loanhduc.game.util.Utils;
 
 
 public class Player extends MovingEntity {
@@ -113,9 +113,8 @@ public class Player extends MovingEntity {
             Map.map[(bombInstanceZ / Map.CELL_WIDTH)][(bombInstanceX / Map.CELL_WIDTH)] = 'B';
             bombInstance.transform.setToTranslation(bombInstanceX, 0, bombInstanceZ);
             bomb.isSet = true;
-            game.explode.createExplode(bombInstanceX, bombInstanceZ, flameLength);
             canWalkThrough.add('B');
-            Utils.setTimeout(() -> bomb.explode(bombInstance, bombAnimationController, bombInstanceX, bombInstanceZ), 3000);
+            Utils.setTime(() -> bomb.explode(bombInstance, bombAnimationController, bombInstanceX, bombInstanceZ), 3.0);
         }
     }
 
@@ -253,5 +252,9 @@ public class Player extends MovingEntity {
 
     public Bomb getBomb() {
         return bomb;
+    }
+
+    public int getFlameLength() {
+        return flameLength;
     }
 }

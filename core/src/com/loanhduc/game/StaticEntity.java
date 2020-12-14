@@ -20,8 +20,8 @@ public abstract class StaticEntity extends Entity {
     }
 
     public void render() {
-        for (ObjectInstance objectInstance : rallyEntity) {
-            MyGdxGame.getModelBatch().render(objectInstance.getModelInstance(), MyGdxGame.getEnvironment());
+        for (int i = 0; i < rallyEntity.size(); i++) {
+            MyGdxGame.getModelBatch().render(rallyEntity.get(i).getModelInstance(), MyGdxGame.getEnvironment());
         }
     }
 

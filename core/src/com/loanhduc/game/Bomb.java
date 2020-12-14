@@ -24,16 +24,15 @@ public class Bomb extends StaticEntity {
         this.myGdxGame = game;
     }
 
-    public void setExplode(ModelInstance modelInstance) {
-        modelInstance.transform.setToTranslation(0, -400, 0);
-    }
-
     public void explode(ModelInstance instance, AnimationController controller, int bombInstanceX, int bombInstanceZ) {
+        if(!modelInstances.contains(instance)) return;
         SoundEffect.playSoundBoom();
         Map.map[(bombInstanceZ / Map.CELL_WIDTH)][(bombInstanceX / Map.CELL_WIDTH)] = ' ';
         myGdxGame.getPlayer().bombSet--;
         modelInstances.remove(instance);
         animationControllers.remove(controller);
+        myGdxGame.explode.createExplode(bombInstanceX, bombInstanceZ, myGdxGame.getPlayer().getFlameLength());
+        myGdxGame.checkBurned();
     }
 
     @Override
@@ -50,9 +49,7 @@ public class Bomb extends StaticEntity {
             Vector3 pos = new Vector3();
             modelInstances.get(i).transform.getTranslation(pos);
             if (map[(int) ((pos.z+100) / cell)][(int) ((pos.x+100) / cell)] == 'F') {
-                modelInstances.remove(i);
-                animationControllers.remove(i);
-                i--;
+                explode(modelInstances.get(i), animationControllers.get(i), (int)pos.x, (int)pos.z);
             }
         }
     }
