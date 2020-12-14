@@ -1,6 +1,7 @@
 package com.loanhduc.game.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.loanhduc.game.*;
 import com.loanhduc.game.util.SoundEffect;
@@ -33,12 +35,47 @@ public class MyGdxGame extends ScreenAdapter {
 	private BombItem bombItem = new BombItem();
 	private Enemy enemy = new Enemy(this);
 	private WinPortal winPortal = new WinPortal();
+	public int view = -1;
+	public int direction = 0;
 
 	public MyGdxGame(BoomGame game) {
 		this.game = game;
 	}
-	public void changeView() {
 
+	public void setupView() {
+
+	}
+
+	public void changeDirection() {
+	    if(direction == 0) direction = 1;
+        if(direction == 1) direction = 2;
+        if(direction == 2) direction = 3;
+        if(direction == 3) direction = 0;
+    }
+
+	private void cameraFollowPlayer() {
+		if(view==-1) {
+				cam.position.set(player.getX(), 1500, player.getZ() + 600);
+				cam.lookAt(player.getX(), player.getY(), player.getZ());
+		} else {
+				if(direction ==0) {
+                    cam.position.set(player.getX(), 200, player.getZ() -300);
+                    cam.lookAt(player.getX(), 100, player.getZ() + 800);
+                } else if(direction ==1) {
+                    cam.position.set(player.getX() - 300, 200, player.getZ());
+                    cam.lookAt(player.getX() + 800, 100, player.getZ());
+                } else if(direction ==3) {
+                    cam.position.set(player.getX() + 300, 200, player.getZ());
+                    cam.lookAt(player.getX() - 800, 100, player.getZ());
+                } else if(direction ==2) {
+                    cam.position.set(player.getX(), 200, player.getZ() +300);
+                    cam.lookAt(player.getX(), 100, player.getZ() - 800);
+                }
+		}
+	}
+
+	public void changeView() {
+		view *= -1;
 	}
 	public BoomGame getGame() {
 		return game;
@@ -76,6 +113,7 @@ public class MyGdxGame extends ScreenAdapter {
 
 		renderMap();
 		SoundEffect.playSoundInGame();
+		setupView();
 	}
 
 	@Override
@@ -98,13 +136,6 @@ public class MyGdxGame extends ScreenAdapter {
 		Utils.TIME += Utils.DELTA_TIME;
 		Utils.runFunction();
 
-		if(enemy.getEnemies().size() == 0) {
-			winPortal.setOpen(true);
-		}
-		if(winPortal.isOpen() && player.collisionWithWinPortal()) {
-			SoundEffect.stopInGameSound();
-			game.setScreen(new WinGame(game));
-		}
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(0.2f,1f,1f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
@@ -137,11 +168,6 @@ public class MyGdxGame extends ScreenAdapter {
 		int cell = Map.CELL_WIDTH;
 		brick.checkBurned(map, cell);
 		player.getBomb().checkBurned(map, cell);
-	}
-
-	private void cameraFollowPlayer() {
-		cam.position.set(player.getX(), 1500, player.getZ() + 600);
-		cam.lookAt(player.getX(), player.getY(), player.getZ());
 	}
 
 	public void renderMap() {
@@ -182,6 +208,8 @@ public class MyGdxGame extends ScreenAdapter {
 	public void pause() {
 
 	}
+
+
 
 	@Override
 	public void resume() {

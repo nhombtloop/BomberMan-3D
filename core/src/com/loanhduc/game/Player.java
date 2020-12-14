@@ -125,11 +125,45 @@ public class Player extends MovingEntity {
             game.getGame().setScreen(new GameOver(game.getGame()));
         } else if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             animationController_run.update(Gdx.graphics.getDeltaTime());
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) moveLeft();
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) moveRight();
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) moveUp();
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) moveDown();
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                if(game.view == -1) moveLeft();
+                else {
+                    if(game.direction == 0) moveRight();
+                    if(game.direction == 1) moveUp();
+                    if(game.direction == 2) moveLeft();
+                    if(game.direction == 3) moveDown();
+                }
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                if(game.view == -1) moveRight();
+                else {
+                    if(game.direction == 0) moveLeft();
+                    if(game.direction == 1) moveDown();
+                    if(game.direction == 2) moveRight();
+                    if(game.direction == 3) moveUp();
+                }
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                if(game.view == -1) moveUp();
+                else {
+                    if(game.direction == 0) moveDown();
+                    if(game.direction == 1) moveRight();
+                    if(game.direction == 2) moveUp();
+                    if(game.direction == 3) moveLeft();
+                }
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                if(game.view == -1) moveDown();
+                else {
+                    if(game.direction == 0) moveUp();
+                    if(game.direction == 1) moveLeft();
+                    if(game.direction == 2) moveDown();
+                    if(game.direction == 3) moveRight();
+                }
+            }
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) createBomb();
+            if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) game.changeView();
+            if (Gdx.input.isKeyJustPressed(Input.Keys.X)) game.changeDirection();
         }
         else animationController_normal.update(Gdx.graphics.getDeltaTime());
     }
